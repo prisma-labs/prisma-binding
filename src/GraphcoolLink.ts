@@ -1,24 +1,12 @@
-import { HybridLink } from 'graphql-remote'
+import { FetchOptions, HttpLink } from 'apollo-link-http'
+import * as fetch from 'cross-fetch'
 
-export class GraphcoolLink extends HybridLink {
+export class GraphcoolLink extends HttpLink {
   constructor(endpoint: string, apikey?: string) {
-    const headers = apikey
-      ? {
-          Authorization: `Bearer ${apikey}`,
-        }
-      : {}
-    const serviceId = endpoint.split('/').pop()
     super({
-      http: {
-        uri: endpoint,
-        headers,
-      },
-      ws: {
-        uri: `wss://subscriptions.graph.cool/v1/${serviceId}`,
-        options: {
-          params: headers,
-        },
-      },
+      uri: endpoint,
+      headers: apikey ? { Authorization: `Bearer ${apikey}` } : {},
+      fetch,
     })
   }
 }

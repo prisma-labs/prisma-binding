@@ -1,123 +1,20 @@
-import { Remote, extractDocumentAndVariableValues } from 'graphql-remote'
-import {
-  GraphQLResolveInfo,
-  ExecutionResult,
-  GraphQLObjectType,
-  FieldNode,
-  SelectionNode,
-} from 'graphql'
+import { GraphQLResolveInfo, GraphQLSchema, ExecutionResult } from 'graphql'
+import { delegateToSchema } from 'graphql-tools'
+import { SchemaCache } from 'graphql-schema-cache'
 import { importSchema } from 'graphql-import'
 import { GraphcoolLink } from './GraphcoolLink'
-import { isScalar } from './utils'
-import { GraphQLSchema } from 'graphql/type/schema'
+import {
+  prepareInfoForQueryOrMutation,
+  prepareInfoForExistsQuery,
+} from './prepareInfo'
 
-const schemaCache: { [schemaPath: string]: string } = {}
-
-function getTypeDefs(schemaPath: string): string {
-  if (schemaCache[schemaPath]) {
-    return schemaCache[schemaPath]
-  }
-
-  const schema = importSchema(schemaPath)
-  schemaCache[schemaPath] = schema
-
-  return schema
-}
-
-function extractTypeName(rootField: string): string {
-  if (rootField.startsWith('all')) {
-    return rootField.slice(3, -1)
-  }
-
-  return rootField.replace(/^(create|update|delete)/, '')
-}
-
-function prepareInfoForQueryOrMutation(
-  rootField: string,
-  schema: GraphQLSchema,
-  operation: 'query' | 'mutation',
-): GraphQLResolveInfo {
-  const typeName = extractTypeName(rootField)
-  const type = schema.getType(typeName) as GraphQLObjectType
-  const fields = type.getFields()
-  const selections = Object.keys(fields)
-    .filter(f => isScalar(fields[f].type))
-    .map<FieldNode>(fieldName => {
-      const field = fields[fieldName]
-      return {
-        kind: 'Field',
-        name: { kind: 'Name', value: field.name },
-      }
-    })
-  const fieldNode: FieldNode = {
-    kind: 'Field',
-    name: { kind: 'Name', value: rootField },
-    selectionSet: { kind: 'SelectionSet', selections },
-  }
-
-  return {
-    fieldNodes: [fieldNode],
-    fragments: {},
-    // the following fields are not needed for graphql-remote
-    schema,
-    fieldName: rootField,
-    returnType: type,
-    parentType: schema.getQueryType(),
-    path: undefined,
-    rootValue: null,
-    operation: {
-      kind: 'OperationDefinition',
-      operation,
-      selectionSet: { kind: 'SelectionSet', selections: [] },
-    },
-    variableValues: {},
-  }
-}
-
-function prepareInfoForExistsQuery(
-  typeName: string,
-  schema: GraphQLSchema,
-): GraphQLResolveInfo {
-  const rootField = `all${typeName}s`
-  const type = schema.getType(typeName) as GraphQLObjectType
-  const fieldNode: FieldNode = {
-    kind: 'Field',
-    name: { kind: 'Name', value: rootField },
-    selectionSet: {
-      kind: 'SelectionSet',
-      selections: [
-        {
-          kind: 'Field',
-          name: { kind: 'Name', value: 'id' },
-        },
-      ],
-    },
-  }
-
-  return {
-    fieldNodes: [fieldNode],
-    fragments: {},
-    // the following fields are not needed for graphql-remote
-    schema,
-    fieldName: rootField,
-    returnType: type,
-    parentType: schema.getQueryType(),
-    path: undefined,
-    rootValue: null,
-    operation: {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      selectionSet: { kind: 'SelectionSet', selections: [] },
-    },
-    variableValues: {},
-  }
-}
-
-type Variables = { [key: string]: any }
+const typeDefsCache: { [schemaPath: string]: string } = {}
+const schemaCache = new SchemaCache()
 
 export class Graphcool {
-  private remote: Remote
+  private remoteSchema: GraphQLSchema
 
+  // needed for dynamic function calls (should be replaced by codegen)
   [method: string]: any
 
   constructor({
@@ -130,34 +27,41 @@ export class Graphcool {
     apikey: string
   }) {
     const typeDefs = getTypeDefs(schema)
+    const link = new GraphcoolLink(endpoint, apikey)
 
-    this.remote = new Remote(new GraphcoolLink(endpoint, apikey), { typeDefs })
+    this.remoteSchema = schemaCache.makeExecutableSchema({
+      link,
+      typeDefs,
+      key: endpoint,
+    })
 
     return new Proxy(this, this)
   }
 
-  request<T extends any>(
-    query: string,
-    variables?: { [key: string]: any },
-    operationName?: string,
-  ): Promise<T> {
-    return this.remote.request(query, variables, operationName)
-  }
+  // TODO reimplement
+  // request<T extends any>(
+  //   query: string,
+  //   variables?: { [key: string]: any },
+  //   operationName?: string,
+  // ): Promise<T> {
+  //   return this.remote.request(query, variables, operationName)
+  // }
 
   get(target, prop: string) {
-    const schema = this.remote.getSchema()
+    const schema = this.remoteSchema
     if (prop.endsWith('Exists')) {
       return async (filter: { [key: string]: any }): Promise<boolean> => {
         const typeName = prop.replace(/Exists$/, '')
         const rootField = `all${typeName}s`
-        const result = await this.remote.delegateQuery(
+        const result = await delegateToSchema(
+          this.remoteSchema,
+          {},
+          'query',
           rootField,
           { filter },
           {},
           prepareInfoForExistsQuery(typeName, schema),
         )
-
-        console.log(result)
 
         return (result as any).length > 0
       }
@@ -172,7 +76,10 @@ export class Graphcool {
         prop.startsWith('update') ||
         prop.startsWith('delete')
       ) {
-        return this.remote.delegateMutation(
+        return delegateToSchema(
+          this.remoteSchema,
+          {},
+          'mutation',
           prop,
           args,
           {},
@@ -180,7 +87,10 @@ export class Graphcool {
         )
       }
 
-      return this.remote.delegateQuery(
+      return delegateToSchema(
+        this.remoteSchema,
+        {},
+        'query',
         prop,
         args,
         {},
@@ -188,4 +98,15 @@ export class Graphcool {
       )
     }
   }
+}
+
+function getTypeDefs(schemaPath: string): string {
+  if (typeDefsCache[schemaPath]) {
+    return typeDefsCache[schemaPath]
+  }
+
+  const schema = importSchema(schemaPath)
+  typeDefsCache[schemaPath] = schema
+
+  return schema
 }
