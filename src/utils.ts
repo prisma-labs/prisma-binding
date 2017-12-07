@@ -35,3 +35,11 @@ export function isScalar(t: GraphQLOutputType): boolean {
 
   return false
 }
+
+export function extractTypeNameFromRootField(rootField: string): string {
+  if (rootField.startsWith('all')) {
+    return rootField.slice(3, -1)
+  }
+
+  return rootField.replace(/^(create|update|delete)/, '')
+}
