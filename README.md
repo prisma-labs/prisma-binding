@@ -94,21 +94,42 @@ If you instantiate `Graphcool` based on this service, you'll be able to send the
 const graphcool = Graphcool({ ... })
 
 // Retrieve `name` of a specific user
-graphcool.user({ id: 'abc' }, `{ name }`)
+graphcool.user({ id: 'abc' }, '{ name }')
 
 // Retrieve `id` and `name` of all users
-graphcool.users(null, `{ id name }`)
+graphcool.users(null, '{ id name }')
 
 // Create new user called `Sarah` and retrieve the `id`
-graphcool.createUser({ name: 'Sarah' }, `{ id }`)
+graphcool.createUser({ name: 'Sarah' }, '{ id }')
 
 // Update name of a specific user and retrieve the `id`
-graphcool.updateUser({ id: 'abc', name: 'Sarah' }, `{ id }`)
+graphcool.updateUser({ id: 'abc', name: 'Sarah' }, '{ id }')
 
 // Delete a specific user and retrieve the `name`
-graphcool.deleteUser({ id: 'abc' }, `{ id }`)
+graphcool.deleteUser({ id: 'abc' }, '{ id }')
 ```
 
+Under the hood, each of these function calls is simply translated into an actual HTTP request against your Graphcool service (using [`graphql-request`](https://github.com/graphcool/graphql-request)). So, for example, the call to `graphcool.user({ id: 'abc' }, '{ name }')` is translated to the following:
+
+```js
+const { request } = require('graphql-request')
+
+const query = `
+{
+  user {
+    name
+  }
+}
+`
+
+const variables = { id: 'abc' }
+
+request(
+  __GRAPHCOOL_ENDPOINT__,
+  query,
+  variables
+)
+```
 
 #### `exists`
 
