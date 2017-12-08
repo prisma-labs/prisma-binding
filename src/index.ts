@@ -17,7 +17,7 @@ import {
 import { FragmentReplacements } from './extractFragmentReplacements'
 
 export { extractFragmentReplacements } from './extractFragmentReplacements'
-export { DateTimeResolver } from './DateTimeResolver'
+export { DateTimeResolver as DateTime } from './DateTimeResolver'
 
 export interface Query {
   [rootField: string]: <T = any>(
