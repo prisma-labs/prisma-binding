@@ -27,10 +27,7 @@ export interface Query {
 }
 
 export interface Exists {
-  [rootField: string]: (
-    args?: any,
-    info?: GraphQLResolveInfo | string,
-  ) => Promise<boolean>
+  [rootField: string]: (filter: { [key: string]: any }) => Promise<boolean>
 }
 
 export interface GraphcoolOptions {
