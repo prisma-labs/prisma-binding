@@ -23,9 +23,15 @@ yarn add graphcool-binding
 
 ### `Graphcool`
 
+Instances of `Graphcool` allow you to interact with your Graphcool service, this includes:
+
+- delegating execution of queries and mutations to the Graphcool service (using the `query` and `mutation` properties)
+- checking if a certain node exists in the Graphcool database (using the `exists` property)
+- sending queries and mutations to the Graphcool service (using the `request` method)
+
 #### `constructor(options: GraphcoolOptions): Graphcool`
 
-The `options` object accepts the following fields:
+The `GraphcoolOptions` type has the following fields:
 
 | Key | Required |  Type | Default | Note |
 | ---  | --- | --- | --- | --- |
@@ -34,6 +40,77 @@ The `options` object accepts the following fields:
 | `secret` | Yes | `string` |  - | The secret of your Graphcool service |
 | `fragmentReplacements` | No | `FragmentReplacements` |  `null` | See below |
 
+#### `query` and `mutation`
+
+##### Idea
+
+`query` and `mutation` are public properties on your `Graphcool` instance. They both are of type `Query` and expose a number of functions that are named after the fields on the `Query` and `Mutation` types in your Graphcool database schema.
+
+Each of these functions is a convenience API for you to send a query/mutation to the Graphcool service, so you don't have to write out the full query/mutation from scratch.
+
+The functions have the following API:
+
+```js
+(args: any, info: GraphQLResolveInfo | string): Promise<T>
+```
+
+The input arguments are used as follows:
+
+- `args`: An object that carries potential arguments for the query/mutation
+- `info`: Represents the selection set of the query/mutation
+
+##### Example
+
+Consider the following data model for your Graphcool service:
+
+```graphql
+type User {
+  id: ID! @unique
+  name: String
+}
+```
+
+When deploying the service, Graphcool will generate a database schema similar to this:
+
+```graphql
+type Query {
+  user(id: ID!): User
+  users: [User!]!
+}
+
+type Mutation {
+  createUser(name: String!): User
+  updateUser(id: ID!, name: String): User
+  deleteUser(id: ID!): User
+}
+```
+
+> Note: This is a simplified version of the schema that's actually generated
+
+If you instantiate `Graphcool` based on this service, you'll be able to send the following queries/mutations:
+
+```js
+// Instantiate `Graphcool` based on concrete service
+const graphcool = Graphcool({ ... })
+
+// Retrieve `name` of a specific user
+graphcool.user({ id: 'abc' }, `{ name }`)
+
+// Retrieve `id` and `name` of all users
+graphcool.users(null, `{ id name }`)
+
+// Create new user called `Sarah` and retrieve the `id`
+graphcool.createUser({ name: 'Sarah' }, `{ id }`)
+
+// Update name of a specific user and retrieve the `id`
+graphcool.updateUser({ id: 'abc', name: 'Sarah' }, `{ id }`)
+
+// Delete a specific user and retrieve the `name`
+graphcool.deleteUser({ id: 'abc' }, `{ id }`)
+```
+
+
+#### `exists`
 
 ## Usage
 
