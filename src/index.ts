@@ -17,7 +17,7 @@ import {
 import { FragmentReplacements } from './extractFragmentReplacements'
 
 export { extractFragmentReplacements } from './extractFragmentReplacements'
-export { DateTimeResolver } from './DateTimeResolver'
+export { DateTimeResolver as DateTime } from './DateTimeResolver'
 
 export interface Query {
   [rootField: string]: <T = any>(
@@ -35,7 +35,7 @@ export interface Exists {
 
 export interface GraphcoolOptions {
   fragmentReplacements?: FragmentReplacements
-  schema: string
+  schemaPath: string
   endpoint: string
   secret: string
 }
@@ -54,14 +54,14 @@ export class Graphcool {
   private graphqlClient: GraphQLClient
 
   constructor({
-    schema,
+    schemaPath,
     endpoint,
     secret,
     fragmentReplacements,
   }: GraphcoolOptions) {
     fragmentReplacements = fragmentReplacements || {}
 
-    const typeDefs = getCachedTypeDefs(schema)
+    const typeDefs = getCachedTypeDefs(schemaPath)
     const link = new GraphcoolLink(endpoint, secret)
 
     const remoteSchema = schemaCache.makeExecutableSchema({
