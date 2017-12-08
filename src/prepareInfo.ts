@@ -3,6 +3,8 @@ import {
   GraphQLObjectType,
   FieldNode,
   GraphQLSchema,
+  SelectionSetNode,
+  parse,
 } from 'graphql'
 import { isScalar, extractTypeNameFromRootField } from './utils'
 import { createDocument } from 'graphql-tools/dist/stitching/delegateToSchema'
@@ -57,19 +59,10 @@ export function buildFragmentInfo(
   const typeName = extractTypeNameFromRootField(rootField)
   const type = schema.getType(typeName) as GraphQLObjectType
   const fields = type.getFields()
-  const selections = Object.keys(fields)
-    .filter(f => isScalar(fields[f].type))
-    .map<FieldNode>(fieldName => {
-      const field = fields[fieldName]
-      return {
-        kind: 'Field',
-        name: { kind: 'Name', value: field.name },
-      }
-    })
   const fieldNode: FieldNode = {
     kind: 'Field',
     name: { kind: 'Name', value: rootField },
-    selectionSet: { kind: 'SelectionSet', selections },
+    selectionSet: extractQuerySelectionSet(query),
   }
 
   return {
@@ -126,4 +119,18 @@ export function buildExistsInfo(
     },
     variableValues: {},
   }
+}
+
+function extractQuerySelectionSet(query: string): SelectionSetNode {
+  const document = parse(query)
+  const queryNode = document.definitions[0]
+  if (
+    !queryNode ||
+    queryNode.kind !== 'OperationDefinition' ||
+    queryNode.operation !== 'query'
+  ) {
+    throw new Error(`Invalid query: ${query}`)
+  }
+
+  return queryNode.selectionSet
 }

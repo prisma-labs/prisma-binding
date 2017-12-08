@@ -14,6 +14,10 @@ import {
   buildExistsInfo,
   buildFragmentInfo,
 } from './prepareInfo'
+import { FragmentReplacements } from './extractFragmentReplacements'
+
+export { extractFragmentReplacements } from './extractFragmentReplacements'
+export { DateTimeResolver } from './DateTimeResolver'
 
 export interface Query {
   [rootField: string]: <T = any>(
@@ -29,6 +33,13 @@ export interface Exists {
   ) => Promise<boolean>
 }
 
+export interface GraphcoolOptions {
+  fragmentReplacements?: FragmentReplacements
+  schema: string
+  endpoint: string
+  secret: string
+}
+
 const typeDefsCache: { [schemaPath: string]: string } = {}
 const schemaCache = new SchemaCache()
 
@@ -39,19 +50,19 @@ export class Graphcool {
   exists: Exists
 
   private remoteSchema: GraphQLSchema
+  private fragementReplacements: FragmentReplacements
   private graphqlClient: GraphQLClient
 
   constructor({
     schema,
     endpoint,
-    apikey,
-  }: {
-    schema: string
-    endpoint: string
-    apikey: string
-  }) {
+    secret,
+    fragmentReplacements,
+  }: GraphcoolOptions) {
+    fragmentReplacements = fragmentReplacements || {}
+
     const typeDefs = getCachedTypeDefs(schema)
-    const link = new GraphcoolLink(endpoint, apikey)
+    const link = new GraphcoolLink(endpoint, secret)
 
     const remoteSchema = schemaCache.makeExecutableSchema({
       link,
@@ -59,13 +70,20 @@ export class Graphcool {
       key: endpoint,
     })
 
-    this.query = new Proxy({}, new QueryHandler(remoteSchema))
-    this.mutation = new Proxy({}, new MuationHandler(remoteSchema))
+    this.query = new Proxy(
+      {},
+      new QueryHandler(remoteSchema, fragmentReplacements),
+    )
+    this.mutation = new Proxy(
+      {},
+      new MuationHandler(remoteSchema, fragmentReplacements),
+    )
     this.exists = new Proxy({}, new ExistsHandler(remoteSchema))
 
     this.remoteSchema = remoteSchema
+    this.fragementReplacements = fragmentReplacements
     this.graphqlClient = new GraphQLClient(endpoint, {
-      headers: { Authorization: `Bearer ${apikey}` },
+      headers: { Authorization: `Bearer ${secret}` },
     })
   }
 
@@ -89,7 +107,7 @@ export class Graphcool {
   ) {
     return delegateToSchema(
       this.remoteSchema,
-      {},
+      this.fragementReplacements,
       operation,
       fieldName,
       args,
@@ -100,7 +118,10 @@ export class Graphcool {
 }
 
 class QueryHandler implements ProxyHandler<Graphcool> {
-  constructor(private schema: GraphQLSchema) {}
+  constructor(
+    private schema: GraphQLSchema,
+    private fragmentReplacements: FragmentReplacements,
+  ) {}
 
   get(target, prop: string) {
     return (
@@ -113,13 +134,25 @@ class QueryHandler implements ProxyHandler<Graphcool> {
       } else if (typeof info === 'string') {
         info = buildFragmentInfo(prop, this.schema, operation, info)
       }
-      return delegateToSchema(this.schema, {}, operation, prop, args, {}, info)
+
+      return delegateToSchema(
+        this.schema,
+        this.fragmentReplacements,
+        operation,
+        prop,
+        args,
+        {},
+        info,
+      )
     }
   }
 }
 
 class MuationHandler implements ProxyHandler<Graphcool> {
-  constructor(private schema: GraphQLSchema) {}
+  constructor(
+    private schema: GraphQLSchema,
+    private fragmentReplacements: FragmentReplacements,
+  ) {}
 
   get(target, prop: string) {
     return (
@@ -132,7 +165,16 @@ class MuationHandler implements ProxyHandler<Graphcool> {
       } else if (typeof info === 'string') {
         info = buildFragmentInfo(prop, this.schema, operation, info)
       }
-      return delegateToSchema(this.schema, {}, operation, prop, args, {}, info)
+
+      return delegateToSchema(
+        this.schema,
+        this.fragmentReplacements,
+        operation,
+        prop,
+        args,
+        {},
+        info,
+      )
     }
   }
 }
