@@ -1,6 +1,6 @@
 {
   "name": "graphcool-binding",
-  "version": "0.2.0-alpha3",
+  "version": "0.2.0-alpha4",
   "main": "dist/src/index.js",
   "typings": "./dist/src/index.d.ts",
   "files": [
