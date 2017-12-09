@@ -140,3 +140,7 @@ graphcool.request(query, variables)
 
 - [graphql-boilerplate](https://github.com/graphcool/graphql-boilerplate).
 - [graphql-server-example](https://github.com/graphcool/graphql-server-example).
+
+## Next steps
+
+- Code generation at build-time for the auto-generated delegate resolvers
