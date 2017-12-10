@@ -6,16 +6,15 @@ import {
   SelectionSetNode,
   parse,
 } from 'graphql'
-import { isScalar, extractTypeNameFromRootField } from './utils'
+import { isScalar, getTypeForRootFieldName } from './utils'
 import { createDocument } from 'graphql-tools/dist/stitching/delegateToSchema'
 
 export function buildTypeLevelInfo(
-  rootField: string,
+  rootFieldName: string,
   schema: GraphQLSchema,
   operation: 'query' | 'mutation',
 ): GraphQLResolveInfo {
-  const typeName = extractTypeNameFromRootField(rootField)
-  const type = schema.getType(typeName) as GraphQLObjectType
+  const type = getTypeForRootFieldName(rootFieldName, operation, schema)
   const fields = type.getFields()
   const selections = Object.keys(fields)
     .filter(f => isScalar(fields[f].type))
@@ -28,7 +27,7 @@ export function buildTypeLevelInfo(
     })
   const fieldNode: FieldNode = {
     kind: 'Field',
-    name: { kind: 'Name', value: rootField },
+    name: { kind: 'Name', value: rootFieldName },
     selectionSet: { kind: 'SelectionSet', selections },
   }
 
@@ -36,7 +35,7 @@ export function buildTypeLevelInfo(
     fieldNodes: [fieldNode],
     fragments: {},
     schema,
-    fieldName: rootField,
+    fieldName: rootFieldName,
     returnType: type,
     parentType: schema.getQueryType(),
     path: undefined,
@@ -51,17 +50,16 @@ export function buildTypeLevelInfo(
 }
 
 export function buildFragmentInfo(
-  rootField: string,
+  rootFieldName: string,
   schema: GraphQLSchema,
   operation: 'query' | 'mutation',
   query: string,
 ): GraphQLResolveInfo {
-  const typeName = extractTypeNameFromRootField(rootField)
-  const type = schema.getType(typeName) as GraphQLObjectType
+  const type = getTypeForRootFieldName(rootFieldName, operation, schema)
   const fields = type.getFields()
   const fieldNode: FieldNode = {
     kind: 'Field',
-    name: { kind: 'Name', value: rootField },
+    name: { kind: 'Name', value: rootFieldName },
     selectionSet: extractQuerySelectionSet(query),
   }
 
@@ -69,7 +67,7 @@ export function buildFragmentInfo(
     fieldNodes: [fieldNode],
     fragments: {},
     schema,
-    fieldName: rootField,
+    fieldName: rootFieldName,
     returnType: type,
     parentType: schema.getQueryType(),
     path: undefined,
@@ -87,11 +85,11 @@ export function buildExistsInfo(
   typeName: string,
   schema: GraphQLSchema,
 ): GraphQLResolveInfo {
-  const rootField = `all${typeName}s`
+  const rootFieldName = `all${typeName}s`
   const type = schema.getType(typeName) as GraphQLObjectType
   const fieldNode: FieldNode = {
     kind: 'Field',
-    name: { kind: 'Name', value: rootField },
+    name: { kind: 'Name', value: rootFieldName },
     selectionSet: {
       kind: 'SelectionSet',
       selections: [
@@ -107,7 +105,7 @@ export function buildExistsInfo(
     fieldNodes: [fieldNode],
     fragments: {},
     schema,
-    fieldName: rootField,
+    fieldName: rootFieldName,
     returnType: type,
     parentType: schema.getQueryType(),
     path: undefined,

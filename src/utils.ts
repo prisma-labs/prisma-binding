@@ -7,6 +7,8 @@ import {
   GraphQLInterfaceType,
   GraphQLUnionType,
   GraphQLList,
+  GraphQLSchema,
+  getNamedType,
 } from 'graphql'
 
 export function isScalar(t: GraphQLOutputType): boolean {
@@ -36,10 +38,23 @@ export function isScalar(t: GraphQLOutputType): boolean {
   return false
 }
 
-export function extractTypeNameFromRootField(rootField: string): string {
-  if (rootField.startsWith('all')) {
-    return rootField.slice(3, -1)
+export function getTypeForRootFieldName(
+  rootFieldName: string,
+  operation: 'query' | 'mutation',
+  schema: GraphQLSchema,
+): GraphQLObjectType {
+  const rootFields =
+    operation === 'query'
+      ? schema.getQueryType().getFields()
+      : schema.getMutationType()!.getFields()
+
+  const rootField = rootFields[rootFieldName]
+
+  const namedType = getNamedType(rootField.type)
+
+  if (!(namedType instanceof GraphQLObjectType)) {
+    throw new Error(`Type not instance of GraphQLObjectType: ${namedType.name}`)
   }
 
-  return rootField.replace(/^(create|update|delete)/, '')
+  return namedType
 }

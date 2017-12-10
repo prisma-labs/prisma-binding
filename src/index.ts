@@ -4,6 +4,7 @@ import {
   GraphQLSchema,
   InlineFragmentNode,
 } from 'graphql'
+import { sign } from 'jsonwebtoken'
 import { request, GraphQLClient } from 'graphql-request'
 import { GraphcoolLink } from './GraphcoolLink'
 import { importSchema } from 'graphql-import'
@@ -59,7 +60,8 @@ export class Graphcool {
     fragmentReplacements = fragmentReplacements || {}
 
     const typeDefs = getCachedTypeDefs(schemaPath)
-    const link = new GraphcoolLink(endpoint, secret)
+    const token = sign({}, secret)
+    const link = new GraphcoolLink(endpoint, token)
 
     const remoteSchema = schemaCache.makeExecutableSchema({
       link,
@@ -79,8 +81,9 @@ export class Graphcool {
 
     this.remoteSchema = remoteSchema
     this.fragementReplacements = fragmentReplacements
+
     this.graphqlClient = new GraphQLClient(endpoint, {
-      headers: { Authorization: `Bearer ${secret}` },
+      headers: { Authorization: `Bearer ${token}` },
     })
   }
 
@@ -122,7 +125,7 @@ class QueryHandler implements ProxyHandler<Graphcool> {
 
   get(target, prop: string) {
     return (
-      args: { [key: string]: any },
+      args?: { [key: string]: any },
       info?: GraphQLResolveInfo,
     ): Promise<ExecutionResult> => {
       const operation = 'query'
@@ -137,7 +140,7 @@ class QueryHandler implements ProxyHandler<Graphcool> {
         this.fragmentReplacements,
         operation,
         prop,
-        args,
+        args || {},
         {},
         info,
       )
@@ -179,16 +182,15 @@ class MuationHandler implements ProxyHandler<Graphcool> {
 class ExistsHandler implements ProxyHandler<Graphcool> {
   constructor(private schema: GraphQLSchema) {}
 
-  get(target, prop: string) {
+  get(target, rootFieldName: string) {
     return async (filter: { [key: string]: any }): Promise<boolean> => {
-      const rootField = `all${prop}s`
       const args = { filter }
-      const info = buildExistsInfo(prop, this.schema)
+      const info = buildExistsInfo(rootFieldName, this.schema)
       const result: any[] = await delegateToSchema(
         this.schema,
         {},
         'query',
-        rootField,
+        rootFieldName,
         args,
         {},
         info,
