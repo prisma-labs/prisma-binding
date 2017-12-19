@@ -18,7 +18,7 @@ import {
 import { FragmentReplacements } from './extractFragmentReplacements'
 
 export { extractFragmentReplacements } from './extractFragmentReplacements'
-export { DateTimeResolver as DateTime } from './DateTimeResolver'
+export { scalars } from './scalars'
 
 export interface Query {
   [rootField: string]: <T = any>(
@@ -183,8 +183,8 @@ class ExistsHandler implements ProxyHandler<Graphcool> {
   constructor(private schema: GraphQLSchema) {}
 
   get(target, rootFieldName: string) {
-    return async (filter: { [key: string]: any }): Promise<boolean> => {
-      const args = { filter }
+    return async (where: { [key: string]: any }): Promise<boolean> => {
+      const args = { where }
       const info = buildExistsInfo(rootFieldName, this.schema)
       const result: any[] = await delegateToSchema(
         this.schema,

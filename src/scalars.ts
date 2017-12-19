@@ -1,6 +1,6 @@
 import { GraphQLScalarType, ValueNode, Kind } from 'graphql'
 
-export const DateTimeResolver: GraphQLScalarType = {
+const DateTime: GraphQLScalarType = {
   name: 'DateTime',
   description: 'An ISO-8601 encoded UTC date string.',
 
@@ -16,6 +16,25 @@ export const DateTimeResolver: GraphQLScalarType = {
     return parseLiteral(valueNode)
   },
 }
+
+const Json: GraphQLScalarType = {
+  name: 'Json',
+  description: 'Raw JSON value.',
+
+  serialize(value: any): any {
+    return value
+  },
+
+  parseValue(value: any): any {
+    return value
+  },
+
+  parseLiteral(valueNode: ValueNode): any {
+    return parseLiteral(valueNode)
+  },
+}
+
+export const scalars = { DateTime, Json }
 
 function parseLiteral(ast: ValueNode): any {
   switch (ast.kind) {
