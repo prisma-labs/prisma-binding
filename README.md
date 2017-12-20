@@ -4,7 +4,7 @@ GraphQL Binding for Graphcool services (GraphQL Database)
 
 ## Overview
 
-`graphcool-binding` provides a convenience layer for building GraphQL servers on top of Graphcool services. In short, it simplifies implementing your GraphQL resolvers by _delegating_ execution of queries (or mutations)  to the API of the underlying Graphcool database service.
+`graphcool-binding` provides a convenience layer for building GraphQL servers on top of Graphcool services. In short, it simplifies implementing your GraphQL resolvers by _delegating_ execution of queries (or mutations) to the API of the underlying Graphcool database service.
 
 Here is how it works:
 
@@ -64,7 +64,7 @@ Under the hood, each of these function calls is simply translated into an actual
 The API also allows to ask whether a specific node exists in your Graphcool database:
 
 ```js
-// Ask whether a post exists with `id` equal to `abd` and whose
+// Ask whether a post exists with `id` equal to `abc` and whose
 // `author` is called `Sarah` (return boolean value)
 graphcool.exists.post({
   id: 'abc',
@@ -108,13 +108,13 @@ The generic type `T` corresponds to the type of the respective field.
 
 ### `exists`
 
-`exists` also is a public property on your `Graphcool` instance. Similar to `query` and `mutation`, it also exposes a number of auto-generated functions. However, it exposes only a single function per type. This function is named according to the root field that allows to retrieve a single node of that type (e.g. `user` for a type called `User`). It takes a `filter` object as an input argument and returns a `boolean` value indicating whether the condition expressed with `filter` is met.
+`exists` also is a public property on your `Graphcool` instance. Similar to `query` and `mutation`, it also exposes a number of auto-generated functions. However, it exposes only a single function per type. This function is named according to the root field that allows the retrieval of a single node of that type (e.g. `user` for a type called `User`). It takes a `filter` object as an input argument and returns a `boolean` value indicating whether the condition expressed with `filter` is met.
 
 This function enables you to easily check whether a node of a specific type exists in your Graphcool database.
 
 ### `request`
 
-The `request` method allows send GraphQL queries/mutations to your Graphcool service. The functionality is identical to the auto-generated delegate resolves, but the API is more verbose as you need to spell out the full query/mutation. `request` uses [`graphql-request](https://github.com/graphcool/graphql-request) under the hood.
+The `request` method lets you send GraphQL queries/mutations to your Graphcool service. The functionality is identical to the auto-generated delegate resolves, but the API is more verbose as you need to spell out the full query/mutation. `request` uses [`graphql-request](https://github.com/graphcool/graphql-request) under the hood.
 
 Here is an example of how it can be used:
 
