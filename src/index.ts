@@ -1,24 +1,14 @@
-import {
-  GraphQLResolveInfo,
-  ExecutionResult,
-  GraphQLSchema,
-  InlineFragmentNode,
-} from 'graphql'
+import { GraphQLResolveInfo, GraphQLSchema } from 'graphql'
 import { sign } from 'jsonwebtoken'
-import { request, GraphQLClient } from 'graphql-request'
-import { GraphcoolLink } from './GraphcoolLink'
+import { GraphQLClient } from 'graphql-request'
+import { makeGraphcoolLink } from './GraphcoolLink'
 import { importSchema } from 'graphql-import'
 import { SchemaCache } from 'graphql-schema-cache'
-import { delegateToSchema, makeRemoteExecutableSchema } from 'graphql-tools'
-import {
-  buildTypeLevelInfo,
-  buildExistsInfo,
-  buildFragmentInfo,
-} from './prepareInfo'
-import { FragmentReplacements } from './extractFragmentReplacements'
+import { delegateToSchema } from 'graphql-tools'
+import { buildExistsInfo } from './info'
+import { makeProxy, FragmentReplacements } from 'graphql-binding'
 
-export { extractFragmentReplacements } from './extractFragmentReplacements'
-export { scalars } from './scalars'
+export { extractFragmentReplacements } from 'graphql-binding'
 
 export interface Query {
   [rootField: string]: <T = any>(
@@ -36,6 +26,7 @@ export interface GraphcoolOptions {
   schemaPath: string
   endpoint: string
   secret: string
+  debug?: boolean
 }
 
 const typeDefsCache: { [schemaPath: string]: string } = {}
@@ -56,12 +47,15 @@ export class Graphcool {
     endpoint,
     secret,
     fragmentReplacements,
+    debug,
   }: GraphcoolOptions) {
     fragmentReplacements = fragmentReplacements || {}
 
+    debug = debug || false
+
     const typeDefs = getCachedTypeDefs(schemaPath)
     const token = sign({}, secret)
-    const link = new GraphcoolLink(endpoint, token)
+    const link = makeGraphcoolLink({ endpoint, token, debug })
 
     const remoteSchema = schemaCache.makeExecutableSchema({
       link,
@@ -69,14 +63,16 @@ export class Graphcool {
       key: endpoint,
     })
 
-    this.query = new Proxy(
-      {},
-      new QueryHandler(remoteSchema, fragmentReplacements),
-    )
-    this.mutation = new Proxy(
-      {},
-      new MuationHandler(remoteSchema, fragmentReplacements),
-    )
+    this.query = makeProxy<Query>({
+      schema: remoteSchema,
+      fragmentReplacements,
+      operation: 'query',
+    })
+    this.mutation = makeProxy<Query>({
+      schema: remoteSchema,
+      fragmentReplacements,
+      operation: 'mutation',
+    })
     this.exists = new Proxy({}, new ExistsHandler(remoteSchema))
 
     this.remoteSchema = remoteSchema
@@ -114,68 +110,6 @@ export class Graphcool {
       context,
       info,
     )
-  }
-}
-
-class QueryHandler implements ProxyHandler<Graphcool> {
-  constructor(
-    private schema: GraphQLSchema,
-    private fragmentReplacements: FragmentReplacements,
-  ) {}
-
-  get(target, prop: string) {
-    return (
-      args?: { [key: string]: any },
-      info?: GraphQLResolveInfo,
-    ): Promise<ExecutionResult> => {
-      const operation = 'query'
-      if (!info) {
-        info = buildTypeLevelInfo(prop, this.schema, operation)
-      } else if (typeof info === 'string') {
-        info = buildFragmentInfo(prop, this.schema, operation, info)
-      }
-
-      return delegateToSchema(
-        this.schema,
-        this.fragmentReplacements,
-        operation,
-        prop,
-        args || {},
-        {},
-        info,
-      )
-    }
-  }
-}
-
-class MuationHandler implements ProxyHandler<Graphcool> {
-  constructor(
-    private schema: GraphQLSchema,
-    private fragmentReplacements: FragmentReplacements,
-  ) {}
-
-  get(target, prop: string) {
-    return (
-      args: { [key: string]: any },
-      info?: GraphQLResolveInfo | string,
-    ): Promise<ExecutionResult> => {
-      const operation = 'mutation'
-      if (!info) {
-        info = buildTypeLevelInfo(prop, this.schema, operation)
-      } else if (typeof info === 'string') {
-        info = buildFragmentInfo(prop, this.schema, operation, info)
-      }
-
-      return delegateToSchema(
-        this.schema,
-        this.fragmentReplacements,
-        operation,
-        prop,
-        args,
-        {},
-        info,
-      )
-    }
   }
 }
 
