@@ -18,6 +18,21 @@ export function makeGraphcoolLink({
     fetch,
   })
 
+  const reportErrors = new ApolloLink((operation, forward) => {
+    const observer = forward!(operation)
+    observer.subscribe({
+      error: err => {
+        console.log(err)
+
+        // unfortunately throwing errors in links doesn't work yet
+        // current workaround: console log
+
+        // throw err
+      },
+    })
+    return observer
+  })
+
   if (debug) {
     const debugLink = new ApolloLink((operation, forward) => {
       console.log(`Request to ${endpoint}:`)
@@ -34,8 +49,8 @@ export function makeGraphcoolLink({
       })
     })
 
-    return ApolloLink.from([debugLink, httpLink])
+    return ApolloLink.from([debugLink, reportErrors, httpLink])
   } else {
-    return httpLink
+    return ApolloLink.from([reportErrors, httpLink])
   }
 }
