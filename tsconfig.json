@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "rootDir": ".",
+    "rootDir": "./src",
     "target": "es5",
     "sourceMap": true,
     "strictNullChecks": true,
