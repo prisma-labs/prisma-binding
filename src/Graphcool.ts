@@ -43,7 +43,7 @@ export class Graphcool extends Binding {
       key: endpoint
     })
 
-    super({ executableSchema: remoteSchema, fragmentReplacements })
+    super({ schema: remoteSchema, fragmentReplacements })
 
     this.exists = new Proxy({}, new ExistsHandler(remoteSchema))
   }
