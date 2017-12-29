@@ -23,7 +23,7 @@
     "prepublish": "npm run build",
     "build": "rm -rf dist && tsc -d",
     "lint": "tslint --type-check --project tsconfig.json {src,test}/**/*.ts",
-    "test": "npm run lint && npm run build && ava --serial"
+    "test": "npm run lint && npm run build"
   },
   "dependencies": {
     "@types/jsonwebtoken": "^7.2.4",
@@ -40,7 +40,6 @@
   "devDependencies": {
     "@types/graphql": "0.11.7",
     "@types/node": "8.5.2",
-    "ava": "0.24.0",
     "tslint": "5.8.0",
     "tslint-config-standard": "7.0.0",
     "typescript": "2.6.2"
