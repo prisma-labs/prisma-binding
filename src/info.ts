@@ -1,16 +1,26 @@
 import {
   GraphQLResolveInfo,
-  GraphQLObjectType,
+  GraphQLNonNull,
   FieldNode,
   GraphQLSchema,
+  GraphQLList,
 } from 'graphql'
 
 export function buildExistsInfo(
-  typeName: string,
+  rootFieldName: string,
   schema: GraphQLSchema,
 ): GraphQLResolveInfo {
-  const rootFieldName = `all${typeName}s`
-  const type = schema.getType(typeName) as GraphQLObjectType
+  const queryType = schema.getQueryType()
+  const type = queryType.getFields()[rootFieldName].type
+
+  // make sure that just list types are queried
+  if (
+    !(type instanceof GraphQLNonNull) ||
+    !(type.ofType instanceof GraphQLList)
+  ) {
+    throw new Error(`Invalid exist query: ${rootFieldName}`)
+  }
+
   const fieldNode: FieldNode = {
     kind: 'Field',
     name: { kind: 'Name', value: rootFieldName },

@@ -20,7 +20,7 @@ export class Graphcool extends Binding {
     endpoint,
     secret,
     fragmentReplacements,
-    debug
+    debug,
   }: GraphcoolOptions) {
     if (!schemaPath && !typeDefs) {
       throw new Error('Provide either schemaPath or typeDefs')
@@ -40,7 +40,7 @@ export class Graphcool extends Binding {
     const remoteSchema = schemaCache.makeExecutableSchema({
       link,
       typeDefs: typeDefs!,
-      key: endpoint
+      key: endpoint,
     })
 
     super({ schema: remoteSchema, fragmentReplacements })
@@ -63,7 +63,7 @@ class ExistsHandler implements ProxyHandler<Graphcool> {
         rootFieldName,
         args,
         {},
-        info
+        info,
       )
 
       return result.length > 0
