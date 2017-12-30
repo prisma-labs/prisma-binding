@@ -88,6 +88,7 @@ The `GraphcoolOptions` type has the following fields:
 | `endpoint` | Yes | `string` |  - | The endpoint of your Graphcool service |
 | `secret` | Yes | `string` |  - | The secret of your Graphcool service |
 | `fragmentReplacements` | No | `FragmentReplacements` |  `null` | A list of GraphQL fragment definitions, specifying fields that are required for the resolver to function correctly |
+| `debug` | No | `boolean` |  `false` | Log all queries/mutations to the console |
 
 ### `query` and `mutation`
 
@@ -116,7 +117,7 @@ This function enables you to easily check whether a node of a specific type exis
 
 ### `request`
 
-The `request` method lets you send GraphQL queries/mutations to your Graphcool service. The functionality is identical to the auto-generated delegate resolves, but the API is more verbose as you need to spell out the full query/mutation. `request` uses [`graphql-request](https://github.com/graphcool/graphql-request) under the hood.
+The `request` method lets you send GraphQL queries/mutations to your Graphcool service. The functionality is identical to the auto-generated delegate resolves, but the API is more verbose as you need to spell out the full query/mutation. `request` uses [`graphql-request`](https://github.com/graphcool/graphql-request) under the hood.
 
 Here is an example of how it can be used:
 
