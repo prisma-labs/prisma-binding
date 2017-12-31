@@ -21,6 +21,10 @@ export class Graphcool extends Binding {
     fragmentReplacements,
     debug,
   }: GraphcoolOptions) {
+    if (!typeDefs) {
+      throw new Error('No `typeDefs` provided when calling `new Graphcool()`')
+    }
+
     if (typeDefs.endsWith('.graphql')) {
       typeDefs = getCachedTypeDefs(typeDefs)
     }
