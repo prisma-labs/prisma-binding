@@ -202,9 +202,9 @@ graphql-import@0.1.8:
     graphql "^0.12.3"
     lodash "^4.17.4"
 
-graphql-schema-cache@0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/graphql-schema-cache/-/graphql-schema-cache-0.3.2.tgz#6d0f54eab4c48bb7023af1a9e09186f90dad16c4"
+graphql-schema-cache@0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/graphql-schema-cache/-/graphql-schema-cache-0.3.4.tgz#6f12b84e8db78711db443daf00bf5eaafb796b53"
   dependencies:
     apollo-link "^1.0.7"
     graphql "^0.12.3"
