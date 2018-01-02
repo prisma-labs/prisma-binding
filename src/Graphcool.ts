@@ -107,7 +107,7 @@ class ExistsHandler implements ProxyHandler<Graphcool> {
       while (isWrappingType(type)) {
         type = type.ofType
         // One of those wrappings need to be a GraphQLList for this field to qualify
-        foundList = isListType(type)
+        foundList = foundList || isListType(type)
       }
       if (foundList && (<GraphQLNamedType>type).name == typeName) {
         return fieldDef.name
