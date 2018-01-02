@@ -33,7 +33,7 @@
     "graphql-binding": "0.2.1",
     "graphql-import": "0.1.9",
     "graphql-schema-cache": "0.3.4",
-    "graphql-tools": "2.14.1",
+    "graphql-tools": "2.15.0",
     "jsonwebtoken": "^8.1.0"
   },
   "devDependencies": {
