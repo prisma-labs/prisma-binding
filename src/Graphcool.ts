@@ -3,10 +3,11 @@ import { Exists, GraphcoolOptions } from './types'
 import { sign } from 'jsonwebtoken'
 import { makeGraphcoolLink } from './link'
 import { SchemaCache } from 'graphql-schema-cache'
-import { GraphQLSchema } from 'graphql'
+import { GraphQLSchema, isWrappingType, isListType } from 'graphql'
 import { buildExistsInfo } from './info'
 import { delegateToSchema } from 'graphql-tools'
 import { importSchema } from 'graphql-import'
+import { GraphQLNamedType } from 'graphql';
 
 const schemaCache = new SchemaCache()
 const typeDefsCache: { [schemaPath: string]: string } = {}
@@ -75,8 +76,9 @@ export class Graphcool extends Binding {
 class ExistsHandler implements ProxyHandler<Graphcool> {
   constructor(private schema: GraphQLSchema) {}
 
-  get(target, rootFieldName: string) {
+  get(target, typeName: string) {
     return async (where: { [key: string]: any }): Promise<boolean> => {
+      const rootFieldName: string = this.findRootFieldName(target, typeName)
       const args = { where }
       const info = buildExistsInfo(rootFieldName, this.schema)
       const result: any[] = await delegateToSchema(
@@ -91,6 +93,28 @@ class ExistsHandler implements ProxyHandler<Graphcool> {
 
       return result.length > 0
     }
+  }
+
+  findRootFieldName(target: Graphcool, typeName: string): string {
+    const fields = target.schema.getQueryType().getFields()
+    
+    // Loop over all query root fields
+    for (const field in fields) {
+      const fieldDef = fields[field]
+      let type = fieldDef.type
+      let foundList = false
+      // Traverse the wrapping types (if any)
+      while (isWrappingType(type)) {
+        type = type.ofType
+        // One of those wrappings need to be a GraphQLList for this field to qualify
+        foundList = isListType(type)
+      }
+      if (foundList && (<GraphQLNamedType>type).name == typeName) {
+        return fieldDef.name
+      }
+    }
+
+    throw new Error(`No query root field found for type '${typeName}'`)
   }
 }
 
