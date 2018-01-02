@@ -3,7 +3,7 @@ import { Exists, GraphcoolOptions } from './types'
 import { sign } from 'jsonwebtoken'
 import { makeGraphcoolLink } from './link'
 import { SchemaCache } from 'graphql-schema-cache'
-import { GraphQLResolveInfo } from 'graphql'
+import { GraphQLResolveInfo, isWrappingType, isListType } from 'graphql'
 import { buildExistsInfo } from './info'
 import { importSchema } from 'graphql-import'
 import { GraphQLNamedType } from 'graphql';
@@ -81,9 +81,7 @@ export class Graphcool extends Binding {
 }
 
 class ExistsHandler implements ProxyHandler<Graphcool> {
-  constructor(private schema: GraphQLSchema) {}
-
-  get(target: Graphcool, rootFieldName: string) {
+  get(target: Graphcool, typeName: string) {
     return async (where: { [key: string]: any }): Promise<boolean> => {
       const rootFieldName: string = this.findRootFieldName(target, typeName)
       const args = { where }
