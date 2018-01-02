@@ -3,7 +3,7 @@ import { Exists, GraphcoolOptions } from './types'
 import { sign } from 'jsonwebtoken'
 import { makeGraphcoolLink } from './link'
 import { SchemaCache } from 'graphql-schema-cache'
-import { GraphQLResolveInfo, isWrappingType, isListType } from 'graphql'
+import { GraphQLResolveInfo, isListType, isWrappingType } from 'graphql'
 import { buildExistsInfo } from './info'
 import { importSchema } from 'graphql-import'
 import { GraphQLNamedType } from 'graphql';
