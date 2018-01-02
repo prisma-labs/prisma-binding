@@ -1,6 +1,6 @@
 # graphcool-binding
 
-[![Build Status](https://travis-ci.org/graphcool/graphcool-binding.svg?branch=master)](https://travis-ci.org/graphcool/graphcool-binding) [![npm version](https://badge.fury.io/js/graphcool-binding.svg)](https://badge.fury.io/js/graphcool-binding)
+[![CircleCI](https://circleci.com/gh/graphcool/graphcool-binding.svg?style=shield)](https://circleci.com/gh/graphcool/graphcool-binding) [![npm version](https://badge.fury.io/js/graphcool-binding.svg)](https://badge.fury.io/js/graphcool-binding)
 
 GraphQL Binding for Graphcool services (GraphQL Database)
 
