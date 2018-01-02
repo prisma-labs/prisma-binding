@@ -6,6 +6,7 @@ import { SchemaCache } from 'graphql-schema-cache'
 import { GraphQLResolveInfo } from 'graphql'
 import { buildExistsInfo } from './info'
 import { importSchema } from 'graphql-import'
+import { GraphQLNamedType } from 'graphql';
 
 const schemaCache = new SchemaCache()
 const typeDefsCache: { [schemaPath: string]: string } = {}
@@ -80,8 +81,11 @@ export class Graphcool extends Binding {
 }
 
 class ExistsHandler implements ProxyHandler<Graphcool> {
+  constructor(private schema: GraphQLSchema) {}
+
   get(target: Graphcool, rootFieldName: string) {
     return async (where: { [key: string]: any }): Promise<boolean> => {
+      const rootFieldName: string = this.findRootFieldName(target, typeName)
       const args = { where }
       const info = buildExistsInfo(rootFieldName, target.schema)
       return target.existsDelegate(
@@ -92,6 +96,28 @@ class ExistsHandler implements ProxyHandler<Graphcool> {
         info
       )
     }
+  }
+
+  findRootFieldName(target: Graphcool, typeName: string): string {
+    const fields = target.schema.getQueryType().getFields()
+    
+    // Loop over all query root fields
+    for (const field in fields) {
+      const fieldDef = fields[field]
+      let type = fieldDef.type
+      let foundList = false
+      // Traverse the wrapping types (if any)
+      while (isWrappingType(type)) {
+        type = type.ofType
+        // One of those wrappings need to be a GraphQLList for this field to qualify
+        foundList = foundList || isListType(type)
+      }
+      if (foundList && (<GraphQLNamedType>type).name == typeName) {
+        return fieldDef.name
+      }
+    }
+
+    throw new Error(`No query root field found for type '${typeName}'`)
   }
 }
 
