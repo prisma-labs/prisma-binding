@@ -31,9 +31,9 @@
     "apollo-link-ws": "^1.0.4",
     "cross-fetch": "^1.1.1",
     "graphql": "0.12.3",
-    "graphql-binding": "0.2.1",
+    "graphql-binding": "0.3.0",
     "graphql-import": "0.1.9",
-    "graphql-tools": "2.15.0",
+    "graphql-tools": "2.16.0",
     "jsonwebtoken": "^8.1.0",
     "subscriptions-transport-ws": "^0.9.4"
   },
