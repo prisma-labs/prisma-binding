@@ -2,19 +2,28 @@ import { Binding } from 'graphql-binding'
 import { Exists, GraphcoolOptions } from './types'
 import { sign } from 'jsonwebtoken'
 import { makeGraphcoolLink } from './link'
-import { SchemaCache } from 'graphql-schema-cache'
 import { GraphQLResolveInfo, isListType, isWrappingType } from 'graphql'
 import { buildExistsInfo } from './info'
 import { importSchema } from 'graphql-import'
-import { GraphQLNamedType } from 'graphql';
+import { GraphQLNamedType, GraphQLSchema } from 'graphql'
+import { SharedLink } from './SharedLink'
+import { makeRemoteExecutableSchema } from 'graphql-tools'
 
-const schemaCache = new SchemaCache()
 const typeDefsCache: { [schemaPath: string]: string } = {}
+
+const sharedLink = new SharedLink()
+let remoteSchema: GraphQLSchema | undefined
 
 export class Graphcool extends Binding {
   exists: Exists
 
-  constructor({ typeDefs, endpoint, secret, fragmentReplacements, debug }: GraphcoolOptions) {
+  constructor({
+    typeDefs,
+    endpoint,
+    secret,
+    fragmentReplacements,
+    debug,
+  }: GraphcoolOptions) {
     if (!typeDefs) {
       throw new Error('No `typeDefs` provided when calling `new Graphcool()`')
     }
@@ -28,7 +37,7 @@ export class Graphcool extends Binding {
         endpoint = process.env.GRAPHCOOL_ENDPOINT
       } else {
         throw new Error(
-          `No Graphcool endpoint found. Either provide \`endpoint\` constructor option or set \`GRAPHCOOL_ENDPOINT\` env var.`
+          `No Graphcool endpoint found. Either provide \`endpoint\` constructor option or set \`GRAPHCOOL_ENDPOINT\` env var.`,
         )
       }
     }
@@ -42,7 +51,7 @@ export class Graphcool extends Binding {
         secret = process.env.GRAPHCOOL_SECRET
       } else {
         throw new Error(
-          `No Graphcool secret found. Either provide \`secret\` constructor option or set \`GRAPHCOOL_SECRET\` env var.`
+          `No Graphcool secret found. Either provide \`secret\` constructor option or set \`GRAPHCOOL_SECRET\` env var.`,
         )
       }
     }
@@ -54,13 +63,18 @@ export class Graphcool extends Binding {
     const token = sign({}, secret!)
     const link = makeGraphcoolLink({ endpoint: endpoint!, token, debug })
 
-    const remoteSchema = schemaCache.makeExecutableSchema({
-      link,
-      typeDefs,
-      key: endpoint!
-    })
+    if (!remoteSchema) {
+      remoteSchema = makeRemoteExecutableSchema({
+        link: sharedLink,
+        schema: typeDefs,
+      })
+    }
 
-    super({ schema: remoteSchema, fragmentReplacements })
+    const before = () => {
+      sharedLink.setInnerLink(link)
+    }
+
+    super({ schema: remoteSchema, fragmentReplacements, before })
 
     this.exists = new Proxy({}, new ExistsHandler())
   }
@@ -74,9 +88,11 @@ export class Graphcool extends Binding {
     context: {
       [key: string]: any
     },
-    info?: GraphQLResolveInfo | string
+    info?: GraphQLResolveInfo | string,
   ): Promise<boolean> {
-    return super.delegate(operation, fieldName, args, context, info).then(res => res.length > 0)
+    return super
+      .delegate(operation, fieldName, args, context, info)
+      .then(res => res.length > 0)
   }
 }
 
@@ -86,19 +102,13 @@ class ExistsHandler implements ProxyHandler<Graphcool> {
       const rootFieldName: string = this.findRootFieldName(target, typeName)
       const args = { where }
       const info = buildExistsInfo(rootFieldName, target.schema)
-      return target.existsDelegate(
-        'query',
-        rootFieldName,
-        args,
-        {},
-        info
-      )
+      return target.existsDelegate('query', rootFieldName, args, {}, info)
     }
   }
 
   findRootFieldName(target: Graphcool, typeName: string): string {
     const fields = target.schema.getQueryType().getFields()
-    
+
     // Loop over all query root fields
     for (const field in fields) {
       const fieldDef = fields[field]

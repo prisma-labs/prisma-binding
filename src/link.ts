@@ -1,7 +1,10 @@
 import { createHttpLink } from 'apollo-link-http'
 import * as fetch from 'cross-fetch'
-import { print } from 'graphql'
-import { ApolloLink } from 'apollo-link'
+import { print, OperationDefinitionNode } from 'graphql'
+import { ApolloLink, Operation, split } from 'apollo-link'
+import { WebSocketLink } from 'apollo-link-ws'
+import { SubscriptionClient } from 'subscriptions-transport-ws'
+import * as ws from 'ws'
 
 export function makeGraphcoolLink({
   endpoint,
@@ -17,6 +20,17 @@ export function makeGraphcoolLink({
     headers: { Authorization: `Bearer ${token}` },
     fetch,
   })
+
+  // also works for https/wss
+  const wsEndpoint = endpoint.replace(/^http/, 'ws')
+  const subscriptionClient = new SubscriptionClient(
+    wsEndpoint,
+    { reconnect: true },
+    ws,
+  )
+  const wsLink = new WebSocketLink(subscriptionClient)
+
+  const backendLink = split(op => isSubscription(op), wsLink, httpLink)
 
   const reportErrors = new ApolloLink((operation, forward) => {
     const observer = forward!(operation)
@@ -49,8 +63,31 @@ export function makeGraphcoolLink({
       })
     })
 
-    return ApolloLink.from([debugLink, reportErrors, httpLink])
+    return ApolloLink.from([debugLink, reportErrors, backendLink])
   } else {
-    return ApolloLink.from([reportErrors, httpLink])
+    return ApolloLink.from([reportErrors, backendLink])
   }
+}
+
+function isSubscription(operation: Operation): boolean {
+  const selectedOperation = getSelectedOperation(operation)
+  if (selectedOperation) {
+    return selectedOperation.operation === 'subscription'
+  }
+  return false
+}
+
+function getSelectedOperation(
+  operation: Operation,
+): OperationDefinitionNode | undefined {
+  if (operation.query.definitions.length === 1) {
+    return operation.query.definitions[0] as OperationDefinitionNode
+  }
+
+  return operation.query.definitions.find(
+    d =>
+      d.kind === 'OperationDefinition' &&
+      !!d.name &&
+      d.name.value === operation.operationName,
+  ) as OperationDefinitionNode
 }
