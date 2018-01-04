@@ -32,6 +32,7 @@ export function makeGraphcoolLink({
 
   const backendLink = split(op => isSubscription(op), wsLink, httpLink)
 
+  /* TODO: Fix this: this is causing duplicate requests
   const reportErrors = new ApolloLink((operation, forward) => {
     const observer = forward!(operation)
     observer.subscribe({
@@ -46,6 +47,7 @@ export function makeGraphcoolLink({
     })
     return observer
   })
+  */
 
   if (debug) {
     const debugLink = new ApolloLink((operation, forward) => {
@@ -63,9 +65,9 @@ export function makeGraphcoolLink({
       })
     })
 
-    return ApolloLink.from([debugLink, reportErrors, backendLink])
+    return ApolloLink.from([debugLink/*, reportErrors*/, backendLink])
   } else {
-    return ApolloLink.from([reportErrors, backendLink])
+    return ApolloLink.from([/*reportErrors, */backendLink])
   }
 }
 
