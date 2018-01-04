@@ -3,7 +3,7 @@ import * as fetch from 'cross-fetch'
 import { print, OperationDefinitionNode } from 'graphql'
 import { ApolloLink, Operation, split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
-import { SubscriptionClient } from 'subscriptions-transport-ws'
+import { onError } from 'apollo-link-error'
 import * as ws from 'ws'
 
 export function makeGraphcoolLink({
@@ -23,31 +23,23 @@ export function makeGraphcoolLink({
 
   // also works for https/wss
   const wsEndpoint = endpoint.replace(/^http/, 'ws')
-  const subscriptionClient = new SubscriptionClient(
-    wsEndpoint,
-    { reconnect: true },
-    ws,
-  )
-  const wsLink = new WebSocketLink(subscriptionClient)
+  const wsLink = new WebSocketLink({
+    uri: wsEndpoint,
+    options: { reconnect: true},
+    webSocketImpl: ws
+  })
 
   const backendLink = split(op => isSubscription(op), wsLink, httpLink)
 
-  /* TODO: Fix this: this is causing duplicate requests
-  const reportErrors = new ApolloLink((operation, forward) => {
-    const observer = forward!(operation)
-    observer.subscribe({
-      error: err => {
-        console.log(err)
-
-        // unfortunately throwing errors in links doesn't work yet
-        // current workaround: console log
-
-        // throw err
-      },
-    })
-    return observer
-  })
-  */
+  const reportErrors = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.map(({ message, locations, path }) =>
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        )
+      );
+    if (networkError) console.log(`[Network error]: ${networkError}`);
+  });
 
   if (debug) {
     const debugLink = new ApolloLink((operation, forward) => {
@@ -65,9 +57,9 @@ export function makeGraphcoolLink({
       })
     })
 
-    return ApolloLink.from([debugLink/*, reportErrors*/, backendLink])
+    return ApolloLink.from([debugLink, reportErrors, backendLink])
   } else {
-    return ApolloLink.from([/*reportErrors, */backendLink])
+    return ApolloLink.from([reportErrors, backendLink])
   }
 }
 
