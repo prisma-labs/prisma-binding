@@ -20,9 +20,9 @@
   version "8.5.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.2.tgz#83b8103fa9a2c2e83d78f701a9aa7c9539739aa5"
 
-"@types/node@8.5.6":
-  version "8.5.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.6.tgz#5cf96a225c7be86f72d3dde03c41399319bb8bdc"
+"@types/node@8.5.7":
+  version "8.5.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.7.tgz#9c498c35af354dcfbca3790fb2e81129e93cf0e2"
 
 "@types/zen-observable@0.5.3":
   version "0.5.3"
