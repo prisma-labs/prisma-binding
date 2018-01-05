@@ -12,10 +12,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/lodash@^4.14.85":
-  version "4.14.88"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.88.tgz#97eaf2dc668f33ed8e511a5b627035f4ea20b0f5"
-
 "@types/node@*":
   version "8.5.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.2.tgz#83b8103fa9a2c2e83d78f701a9aa7c9539739aa5"
@@ -226,12 +222,10 @@ graphql-binding@0.5.0:
     graphql-tools "2.16.0"
     iterall "^1.1.3"
 
-graphql-import@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/graphql-import/-/graphql-import-0.2.0.tgz#4877fef467d8a9255e6760c3988f6c00018e94af"
+graphql-import@0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/graphql-import/-/graphql-import-0.2.1.tgz#96b11fbd180e169500c1a76dbcfa05ec8672e94c"
   dependencies:
-    "@types/graphql" "0.11.7"
-    "@types/lodash" "^4.14.85"
     graphql "^0.12.3"
     lodash "^4.17.4"
 
