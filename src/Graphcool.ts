@@ -76,7 +76,10 @@ export class Graphcool extends Binding {
 
     super({ schema: remoteSchema, fragmentReplacements, before })
 
-    this.exists = new Proxy({}, new ExistsHandler())
+    this.exists = new Proxy(
+      {},
+      new ExistsHandler(remoteSchema, this.existsDelegate.bind(this))
+    )
   }
 
   existsDelegate(
@@ -90,24 +93,27 @@ export class Graphcool extends Binding {
     },
     info?: GraphQLResolveInfo | string,
   ): Promise<boolean> {
-    return super
+    this.before()
+    return this
       .delegate(operation, fieldName, args, context, info)
       .then(res => res.length > 0)
   }
 }
 
 class ExistsHandler implements ProxyHandler<Graphcool> {
-  get(target: Graphcool, typeName: string) {
+  constructor(private schema: GraphQLSchema, private delegate: any) {}
+
+  get(target: any, typeName: string) {
     return async (where: { [key: string]: any }): Promise<boolean> => {
-      const rootFieldName: string = this.findRootFieldName(target, typeName)
+      const rootFieldName: string = this.findRootFieldName(typeName, this.schema)
       const args = { where }
-      const info = buildExistsInfo(rootFieldName, target.schema)
-      return target.existsDelegate('query', rootFieldName, args, {}, info)
+      const info = buildExistsInfo(rootFieldName, this.schema)
+      return this.delegate('query', rootFieldName, args, {}, info)
     }
   }
 
-  findRootFieldName(target: Graphcool, typeName: string): string {
-    const fields = target.schema.getQueryType().getFields()
+  findRootFieldName(typeName: string, schema: GraphQLSchema): string {
+    const fields = schema.getQueryType().getFields()
 
     // Loop over all query root fields
     for (const field in fields) {
