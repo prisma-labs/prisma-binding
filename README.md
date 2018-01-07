@@ -68,7 +68,7 @@ The API also allows to ask whether a specific node exists in your Graphcool data
 ```js
 // Ask whether a post exists with `id` equal to `abc` and whose
 // `author` is called `Sarah` (return boolean value)
-graphcool.exists.post({
+graphcool.exists.Post({
   id: 'abc',
   author: {
     name: 'Sarah'
@@ -111,7 +111,7 @@ The generic type `T` corresponds to the type of the respective field.
 
 ### `exists`
 
-`exists` also is a public property on your `Graphcool` instance. Similar to `query` and `mutation`, it also exposes a number of auto-generated functions. However, it exposes only a single function per type. This function is named according to the root field that allows the retrieval of a single node of that type (e.g. `user` for a type called `User`). It takes a `filter` object as an input argument and returns a `boolean` value indicating whether the condition expressed with `filter` is met.
+`exists` also is a public property on your `Graphcool` instance. Similar to `query` and `mutation`, it also exposes a number of auto-generated functions. However, it exposes only a single function per type. This function is named according to the root field that allows the retrieval of a single node of that type (e.g. `User` for a type called `User`). It takes a `where` object as an input argument and returns a `boolean` value indicating whether the condition expressed with `where` is met.
 
 This function enables you to easily check whether a node of a specific type exists in your Graphcool database.
 
