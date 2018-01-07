@@ -46,19 +46,19 @@ const graphcool = new Graphcool({
 })
 
 // Retrieve `name` of a specific user
-graphcool.query.user({ id: 'abc' }, '{ name }')
+graphcool.query.user({ where { id: 'abc' } }, '{ name }')
 
 // Retrieve `id` and `name` of all users
 graphcool.query.users(null, '{ id name }')
 
 // Create new user called `Sarah` and retrieve the `id`
-graphcool.mutation.createUser({ name: 'Sarah' }, '{ id }')
+graphcool.mutation.createUser({ data: { name: 'Sarah' } }, '{ id }')
 
 // Update name of a specific user and retrieve the `id`
-graphcool.mutation.updateUser({ id: 'abc', name: 'Sarah' }, '{ id }')
+graphcool.mutation.updateUser({ where: { id: 'abc' }, data: { name: 'Sarah' } }, '{ id }')
 
 // Delete a specific user and retrieve the `name`
-graphcool.mutation.deleteUser({ id: 'abc' }, '{ id }')
+graphcool.mutation.deleteUser({ where: { id: 'abc' } }, '{ id }')
 ```
 
 Under the hood, each of these function calls is simply translated into an actual HTTP request against your Graphcool service (using [`graphql-request`](https://github.com/graphcool/graphql-request)).
