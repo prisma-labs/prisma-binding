@@ -1,5 +1,5 @@
 import { Binding } from 'graphql-binding'
-import { Exists, GraphcoolOptions } from './types'
+import { Exists, GraphcoolOptions, QueryMap, SubscriptionMap } from './types'
 import { sign } from 'jsonwebtoken'
 import { makeGraphcoolLink } from './link'
 import { GraphQLResolveInfo, isListType, isWrappingType } from 'graphql'
@@ -8,13 +8,14 @@ import { importSchema } from 'graphql-import'
 import { GraphQLNamedType, GraphQLSchema } from 'graphql'
 import { SharedLink } from './SharedLink'
 import { makeRemoteExecutableSchema } from 'graphql-tools'
+import { Handler, SubscriptionHandler } from './Handler'
 
 const typeDefsCache: { [schemaPath: string]: string } = {}
 
 const sharedLink = new SharedLink()
 let remoteSchema: GraphQLSchema | undefined
 
-export class Graphcool extends Binding {
+export class Graphcool extends Binding<QueryMap, SubscriptionMap> {
   exists: Exists
 
   constructor({
@@ -74,7 +75,7 @@ export class Graphcool extends Binding {
       sharedLink.setInnerLink(link)
     }
 
-    super({ schema: remoteSchema, fragmentReplacements, before })
+    super({ schema: remoteSchema, fragmentReplacements, before, handler: Handler, subscriptionHandler: SubscriptionHandler })
 
     this.exists = new Proxy(
       {},
@@ -101,7 +102,7 @@ export class Graphcool extends Binding {
 }
 
 class ExistsHandler implements ProxyHandler<Graphcool> {
-  constructor(private schema: GraphQLSchema, private delegate: any) {}
+  constructor(private schema: GraphQLSchema, private delegate: any) { }
 
   get(target: any, typeName: string) {
     return async (where: { [key: string]: any }): Promise<boolean> => {
