@@ -1,5 +1,5 @@
 {
-  "name": "graphcool-binding",
+  "name": "prisma-binding",
   "version": "0.0.0-semantic-release",
   "main": "dist/index.js",
   "typings": "./dist/index.d.ts",
