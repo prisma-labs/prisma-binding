@@ -5,14 +5,14 @@ export interface Exists {
   [rootField: string]: (filter: { [key: string]: any }) => Promise<boolean>
 }
 
-export interface BaseGraphcoolOptions {
+export interface BasePrismaOptions {
   fragmentReplacements?: FragmentReplacements
   endpoint?: string
   secret?: string
   debug?: boolean
 }
 
-export interface GraphcoolOptions extends BaseGraphcoolOptions {
+export interface PrismaOptions extends BasePrismaOptions {
   typeDefs: string
 }
 

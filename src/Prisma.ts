@@ -1,7 +1,7 @@
 import { Binding } from 'graphql-binding'
-import { Exists, GraphcoolOptions, QueryMap, SubscriptionMap } from './types'
+import { Exists, PrismaOptions, QueryMap, SubscriptionMap } from './types'
 import { sign } from 'jsonwebtoken'
-import { makeGraphcoolLink } from './link'
+import { makePrismaLink } from './link'
 import { GraphQLResolveInfo, isListType, isWrappingType } from 'graphql'
 import { buildExistsInfo } from './info'
 import { importSchema } from 'graphql-import'
@@ -15,7 +15,7 @@ const typeDefsCache: { [schemaPath: string]: string } = {}
 const sharedLink = new SharedLink()
 let remoteSchema: GraphQLSchema | undefined
 
-export class Graphcool extends Binding<QueryMap, SubscriptionMap> {
+export class Prisma extends Binding<QueryMap, SubscriptionMap> {
   exists: Exists
 
   constructor({
@@ -24,9 +24,9 @@ export class Graphcool extends Binding<QueryMap, SubscriptionMap> {
     secret,
     fragmentReplacements,
     debug,
-  }: GraphcoolOptions) {
+  }: PrismaOptions) {
     if (!typeDefs) {
-      throw new Error('No `typeDefs` provided when calling `new Graphcool()`')
+      throw new Error('No `typeDefs` provided when calling `new Prisma()`')
     }
 
     if (typeDefs.endsWith('.graphql')) {
@@ -34,27 +34,19 @@ export class Graphcool extends Binding<QueryMap, SubscriptionMap> {
     }
 
     if (endpoint === undefined) {
-      if (process.env.GRAPHCOOL_ENDPOINT) {
-        endpoint = process.env.GRAPHCOOL_ENDPOINT
-      } else {
-        throw new Error(
-          `No Graphcool endpoint found. Either provide \`endpoint\` constructor option or set \`GRAPHCOOL_ENDPOINT\` env var.`,
-        )
-      }
+      throw new Error(
+        `No Prisma endpoint found. Please provide the \`endpoint\` constructor option.`,
+      )
     }
 
     if (!endpoint!.startsWith('http')) {
-      throw new Error(`Invalid Graphcool endpoint provided: ${endpoint}`)
+      throw new Error(`Invalid Prisma endpoint provided: ${endpoint}`)
     }
 
     if (secret === undefined) {
-      if (process.env.GRAPHCOOL_SECRET) {
-        secret = process.env.GRAPHCOOL_SECRET
-      } else {
-        throw new Error(
-          `No Graphcool secret found. Either provide \`secret\` constructor option or set \`GRAPHCOOL_SECRET\` env var.`,
-        )
-      }
+      throw new Error(
+        `No Prisma secret found. Please provide the \`secret\` constructor option.`,
+      )
     }
 
     fragmentReplacements = fragmentReplacements || {}
@@ -62,7 +54,7 @@ export class Graphcool extends Binding<QueryMap, SubscriptionMap> {
     debug = debug || false
 
     const token = sign({}, secret!)
-    const link = makeGraphcoolLink({ endpoint: endpoint!, token, debug })
+    const link = makePrismaLink({ endpoint: endpoint!, token, debug })
 
     if (!remoteSchema) {
       remoteSchema = makeRemoteExecutableSchema({
@@ -101,7 +93,7 @@ export class Graphcool extends Binding<QueryMap, SubscriptionMap> {
   }
 }
 
-class ExistsHandler implements ProxyHandler<Graphcool> {
+class ExistsHandler implements ProxyHandler<Prisma> {
   constructor(private schema: GraphQLSchema, private delegate: any) { }
 
   get(target: any, typeName: string) {

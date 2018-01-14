@@ -6,7 +6,7 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { onError } from 'apollo-link-error'
 import * as ws from 'ws'
 
-export function makeGraphcoolLink({
+export function makePrismaLink({
   endpoint,
   token,
   debug,
