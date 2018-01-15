@@ -16,6 +16,8 @@ Here is how it works:
 1. Instantiate `Graphcool` with information about your Graphcool service (such as its endpoint and the path to the database schema definition)
 1. Implement the resolvers for your application schema by delegating to the underlying Graphcool service using the generated delegate resolver functions
 
+> **Note**: If you're using a [GraphQL boilerplate](https://github.com/graphql-boilerplates/) project (e.g. with `graphql create`), the Prisma binding will already be configured and a few example resolvers implemented for you. You can either try the _dynamic binding_ (e.g. in the [`node-basic`](https://github.com/graphql-boilerplates/node-graphql-server/tree/master/basic) boilerplate) or a _static binding_ (e.g in the [`typescript-basic`](https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/basic) boilerplate).
+
 ## Install
 
 ```sh
