@@ -42,8 +42,8 @@ If you instantiate `Prisma` based on this service, you'll be able to send the fo
 ```js
 // Instantiate `Prisma` based on concrete service
 const prisma = new Prisma({
-  schemaPath: 'schemas/database.graphql',
-  endpoint: 'https://api.graph.cool/simple/v1/my-prisma-service'
+  typeDefs: 'schemas/database.graphql',
+  endpoint: 'https://us1.prisma.sh/demo/my-service/dev'
   secret: 'my-super-secret-secret'
 })
 
@@ -86,7 +86,7 @@ The `PrismaOptions` type has the following fields:
 
 | Key | Required |  Type | Default | Note |
 | ---  | --- | --- | --- | --- |
-| `schemaPath` | Yes | `string` |  - | File path to the schema definition of your Prisma service (typically a file called `database.graphql`) |
+| `typeDefs` | Yes | `string` |  - | Type definition string or file path to the schema definition of your Prisma service (typically a file called `database.graphql`) |
 | `endpoint` | Yes | `string` |  - | The endpoint of your Prisma service |
 | `secret` | Yes | `string` |  - | The secret of your Prisma service |
 | `fragmentReplacements` | No | `FragmentReplacements` |  `null` | A list of GraphQL fragment definitions, specifying fields that are required for the resolver to function correctly |
