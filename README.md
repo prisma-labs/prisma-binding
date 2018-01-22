@@ -11,7 +11,7 @@ GraphQL Binding for Prisma services (GraphQL Database)
 Here is how it works:
 
 1. Create your Prisma service by defining data model
-1. Download generated database schema definition `database.graphql` (contains the full CRUD API)
+1. Download generated database schema definition `prisma.graphql` (contains the full CRUD API)
 1. Define your application schema, typically called `app.graphql`
 1. Instantiate `Prisma` with information about your Prisma service (such as its endpoint and the path to the database schema definition)
 1. Implement the resolvers for your application schema by delegating to the underlying Prisma service using the generated delegate resolver functions
