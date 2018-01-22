@@ -25,8 +25,13 @@ export function makePrismaLink({
   const wsEndpoint = endpoint.replace(/^http/, 'ws')
   const wsLink = new WebSocketLink({
     uri: wsEndpoint,
-    options: { reconnect: true},
-    webSocketImpl: ws
+    options: {
+      reconnect: true,
+      connectionParams: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    webSocketImpl: ws,
   })
 
   const backendLink = split(op => isSubscription(op), wsLink, httpLink)
@@ -35,11 +40,11 @@ export function makePrismaLink({
     if (graphQLErrors)
       graphQLErrors.map(({ message, locations, path }) =>
         console.log(
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-        )
-      );
-    if (networkError) console.log(`[Network error]: ${networkError}`);
-  });
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+        ),
+      )
+    if (networkError) console.log(`[Network error]: ${networkError}`)
+  })
 
   if (debug) {
     const debugLink = new ApolloLink((operation, forward) => {
