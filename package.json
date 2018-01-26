@@ -35,7 +35,7 @@
     "graphql-binding": "1.2.0",
     "graphql-import": "0.4.1",
     "graphql-tools": "2.18.0",
-    "jsonwebtoken": "^8.1.0",
+    "jsonwebtoken": "^8.0.0",
     "subscriptions-transport-ws": "0.9.5"
   },
   "devDependencies": {
