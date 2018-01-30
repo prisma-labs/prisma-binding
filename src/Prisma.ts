@@ -11,9 +11,9 @@ import { makeRemoteExecutableSchema } from 'graphql-tools'
 import { Handler, SubscriptionHandler } from './Handler'
 
 const typeDefsCache: { [schemaPath: string]: string } = {}
+const remoteSchemaCache: { [typeDefs: string]: GraphQLSchema } = {}
 
 const sharedLink = new SharedLink()
-let remoteSchema: GraphQLSchema | undefined
 
 export class Prisma extends Binding<QueryMap, SubscriptionMap> {
   exists: Exists
@@ -56,12 +56,7 @@ export class Prisma extends Binding<QueryMap, SubscriptionMap> {
     const token = sign({}, secret!)
     const link = makePrismaLink({ endpoint: endpoint!, token, debug })
 
-    if (!remoteSchema) {
-      remoteSchema = makeRemoteExecutableSchema({
-        link: sharedLink,
-        schema: typeDefs,
-      })
-    }
+    const remoteSchema = getCachedRemoteSchema(typeDefs, sharedLink)
 
     const before = () => {
       sharedLink.setInnerLink(link)
@@ -137,4 +132,21 @@ function getCachedTypeDefs(schemaPath: string): string {
   typeDefsCache[schemaPath] = schema
 
   return schema
+}
+
+function getCachedRemoteSchema(
+  typeDefs: string, 
+  link: SharedLink
+): GraphQLSchema {
+  if (remoteSchemaCache[typeDefs]) {
+    return remoteSchemaCache[typeDefs]
+  }
+
+  const remoteSchema = makeRemoteExecutableSchema({
+    link: sharedLink,
+    schema: typeDefs,
+  })
+  remoteSchemaCache[typeDefs] = remoteSchema
+
+  return remoteSchema
 }

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "rootDir": "./src",
+    "rootDir": ".",
     "target": "es5",
     "sourceMap": true,
     "strictNullChecks": true,
@@ -10,5 +10,5 @@
     "outDir": "dist",
     "lib": ["es2016", "esnext.asynciterable", "dom"]
   },
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
 }
