@@ -1,8 +1,8 @@
 {
   "name": "prisma-binding",
   "version": "0.0.0-semantic-release",
-  "main": "dist/index.js",
-  "typings": "./dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "typings": "./dist/src/index.d.ts",
   "files": [
     "dist"
   ],
@@ -23,7 +23,7 @@
     "prepublish": "npm run build",
     "build": "rm -rf dist && tsc -d",
     "lint": "tslint --type-check --project tsconfig.json {src,test}/**/*.ts",
-    "test": "npm run lint && npm run build"
+    "test": "npm run lint && npm run build && copyfiles -u 2 tests/fixtures/* dist/tests/fixtures && ava"
   },
   "dependencies": {
     "apollo-link": "1.0.7",
@@ -42,6 +42,8 @@
     "@types/graphql": "0.11.8",
     "@types/jsonwebtoken": "7.2.5",
     "@types/node": "9.3.0",
+    "ava": "^0.25.0",
+    "copyfiles": "^1.2.0",
     "tslint": "5.9.1",
     "tslint-config-standard": "7.0.0",
     "typescript": "2.6.2"
