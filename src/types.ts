@@ -1,5 +1,6 @@
 import { FragmentReplacements } from 'graphql-binding'
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo } from 'graphql'
+import { Options } from 'batched-graphql-request/dist/src/types'
 
 export interface Exists {
   [rootField: string]: (filter: { [key: string]: any }) => Promise<boolean>
@@ -28,4 +29,8 @@ export interface SubscriptionMap {
     args?: any,
     info?: GraphQLResolveInfo | string,
   ) => AsyncIterator<any> | Promise<AsyncIterator<any>>
+}
+
+export type HttpOptions = Options & {
+  uri: string
 }

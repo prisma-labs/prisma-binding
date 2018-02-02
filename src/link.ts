@@ -1,10 +1,9 @@
-import { createHttpLink } from 'apollo-link-http'
-import * as fetch from 'cross-fetch'
 import { print, OperationDefinitionNode } from 'graphql'
 import { ApolloLink, Operation, split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { onError } from 'apollo-link-error'
 import * as ws from 'ws'
+import { BatchedHttpLink } from './BatchedHTTPLink'
 
 export function makePrismaLink({
   endpoint,
@@ -15,10 +14,9 @@ export function makePrismaLink({
   token: string
   debug: boolean
 }): ApolloLink {
-  const httpLink = createHttpLink({
+  const httpLink = new BatchedHttpLink({
     uri: endpoint,
     headers: { Authorization: `Bearer ${token}` },
-    fetch,
   })
 
   // also works for https/wss
