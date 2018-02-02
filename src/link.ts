@@ -3,7 +3,7 @@ import { ApolloLink, Operation, split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { onError } from 'apollo-link-error'
 import * as ws from 'ws'
-import { BatchedHttpLink } from './BatchedHTTPLink'
+import { HTTPLinkDataloader } from 'http-link-dataloader'
 
 export function makePrismaLink({
   endpoint,
@@ -14,7 +14,7 @@ export function makePrismaLink({
   token: string
   debug: boolean
 }): ApolloLink {
-  const httpLink = new BatchedHttpLink({
+  const httpLink = new HTTPLinkDataloader({
     uri: endpoint,
     headers: { Authorization: `Bearer ${token}` },
   })
