@@ -1,5 +1,5 @@
 import { FragmentReplacements } from 'graphql-binding'
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo } from 'graphql'
 
 export interface Exists {
   [rootField: string]: (filter: { [key: string]: any }) => Promise<boolean>
