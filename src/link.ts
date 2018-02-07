@@ -28,6 +28,7 @@ export function makePrismaLink({
       connectionParams: {
         Authorization: `Bearer ${token}`,
       },
+      lazy: true,
     },
     webSocketImpl: ws,
   })
