@@ -35,7 +35,7 @@
     "graphql-tools": "2.20.2",
     "http-link-dataloader": "^0.1.1",
     "jsonwebtoken": "^8.1.0",
-    "subscriptions-transport-ws": "0.9.5"
+    "subscriptions-transport-ws": "0.9.6"
   },
   "devDependencies": {
     "@types/graphql": "0.12.4",
