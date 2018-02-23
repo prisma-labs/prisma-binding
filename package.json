@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "apollo-link": "1.0.7",
-    "apollo-link-error": "1.0.3",
+    "apollo-link-error": "1.0.7",
     "apollo-link-ws": "1.0.4",
     "cross-fetch": "1.1.1",
     "graphql-binding": "1.2.2",
