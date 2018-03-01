@@ -129,7 +129,7 @@ apollo-link-ws@1.0.7:
   dependencies:
     apollo-link "^1.2.1"
 
-apollo-link@1.2.1, apollo-link@^1.0.7, apollo-link@^1.1.0, apollo-link@^1.2.1:
+apollo-link@1.2.1, apollo-link@^1.1.0, apollo-link@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.1.tgz#c120b16059f9bd93401b9f72b94d2f80f3f305d2"
   dependencies:
@@ -944,13 +944,6 @@ create-error-class@^3.0.0:
   dependencies:
     capture-stack-trace "^1.0.0"
 
-cross-fetch@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-1.1.1.tgz#dede6865ae30f37eae62ac90ebb7bdac002b05a0"
-  dependencies:
-    node-fetch "1.7.3"
-    whatwg-fetch "2.0.3"
-
 cross-fetch@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-2.0.0.tgz#a17475449561e0f325146cea636a8619efb9b382"
@@ -1092,12 +1085,6 @@ empower-core@^0.6.1:
   dependencies:
     call-signature "0.0.2"
     core-js "^2.0.0"
-
-encoding@^0.1.11:
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/encoding/-/encoding-0.1.12.tgz#538b66f3ee62cd1ab51ec323829d1f9480c74beb"
-  dependencies:
-    iconv-lite "~0.4.13"
 
 equal-length@^1.0.0:
   version "1.0.1"
@@ -1482,12 +1469,12 @@ hosted-git-info@^2.1.4:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.5.0.tgz#6d60e34b3abbc8313062c3b798ef8d901a07af3c"
 
-http-link-dataloader@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/http-link-dataloader/-/http-link-dataloader-0.1.1.tgz#720bb9b79d7f05bc57b723a6d5aa864ca2505d0c"
+http-link-dataloader@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/http-link-dataloader/-/http-link-dataloader-0.1.2.tgz#1aab8e30bd65f3056b8fd4312d50f5071c8862a5"
   dependencies:
-    apollo-link "^1.0.7"
-    cross-fetch "1.1.1"
+    apollo-link "^1.2.1"
+    cross-fetch "2.0.0"
     dataloader "^1.4.0"
 
 http-signature@~1.1.0:
@@ -1516,10 +1503,6 @@ hullabaloo-config-manager@^1.1.0:
     pkg-dir "^2.0.0"
     resolve-from "^3.0.0"
     safe-buffer "^5.0.1"
-
-iconv-lite@~0.4.13:
-  version "0.4.19"
-  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
 
 ignore-by-default@^1.0.0:
   version "1.0.1"
@@ -1718,7 +1701,7 @@ is-retry-allowed@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-retry-allowed/-/is-retry-allowed-1.1.0.tgz#11a060568b67339444033d0125a61a20d564fb34"
 
-is-stream@^1.0.0, is-stream@^1.0.1, is-stream@^1.1.0:
+is-stream@^1.0.0, is-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
 
@@ -2132,13 +2115,6 @@ multimatch@^2.1.0:
 nan@^2.3.0:
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.9.2.tgz#f564d75f5f8f36a6d9456cca7a6c4fe488ab7866"
-
-node-fetch@1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
-  dependencies:
-    encoding "^0.1.11"
-    is-stream "^1.0.1"
 
 node-fetch@2.0.0:
   version "2.0.0"
