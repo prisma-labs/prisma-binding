@@ -141,6 +141,39 @@ prisma.request(query, variables)
 // {"data": { "user": { "id": "abc", "name": "Sarah" } } }
 ```
 
+### `forwardTo`
+
+If you just want to forward a query to the exact same underlying prisma query, you can use `forwardTo`:
+
+```js
+const {forwardTo} = require('prisma-binding')
+
+const resolvers = {
+  Query: {
+    posts: forwardTo('db')
+  }
+}
+
+const server = new GraphQLServer({
+  typeDefs: './src/schema.graphql',
+  resolvers,
+  context: req => ({
+    ...req,
+    db: new Prisma({
+      typeDefs: 'src/generated/prisma.graphql',
+      endpoint: '...',
+      secret: 'mysecret123',
+    }),
+    debug: true,
+  }),
+})
+
+server.start(
+  () => console.log(`Server is running on http://localhost:4000`),
+)
+```
+
+
 ## Usage
 
 - [graphql-boilerplate](https://github.com/graphcool/graphql-boilerplate).
