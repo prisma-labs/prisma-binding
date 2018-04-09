@@ -72,6 +72,7 @@ export class SubscriptionHandler<T extends object> implements ProxyHandler<T> {
           return { value: data, done: false }
         },
         return() {
+          iterator.return()
           return Promise.resolve({ value: undefined, done: true })
         },
         throw(error) {
