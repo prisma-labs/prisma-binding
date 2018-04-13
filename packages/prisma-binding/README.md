@@ -10,11 +10,11 @@ GraphQL Binding for Prisma services (GraphQL Database)
 
 Here is how it works:
 
-1.  Create your Prisma service by defining data model
-1.  Download generated database schema definition `prisma.graphql` (contains the full CRUD API)
-1.  Define your application schema, typically called `app.graphql`
-1.  Instantiate `Prisma` with information about your Prisma service (such as its endpoint and the path to the database schema definition)
-1.  Implement the resolvers for your application schema by delegating to the underlying Prisma service using the generated delegate resolver functions
+1. Create your Prisma service by defining data model
+1. Download generated database schema definition `prisma.graphql` (contains the full CRUD API)
+1. Define your application schema, typically called `app.graphql`
+1. Instantiate `Prisma` with information about your Prisma service (such as its endpoint and the path to the database schema definition)
+1. Implement the resolvers for your application schema by delegating to the underlying Prisma service using the generated delegate resolver functions
 
 > **Note**: If you're using a [GraphQL boilerplate](https://github.com/graphql-boilerplates/) project (e.g. with `graphql create`), the Prisma binding will already be configured and a few example resolvers implemented for you. You can either try the _dynamic binding_ (e.g. in the [`node-basic`](https://github.com/graphql-boilerplates/node-graphql-server/tree/master/basic) boilerplate) or a _static binding_ (e.g in the [`typescript-basic`](https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/basic) boilerplate).
 
@@ -73,8 +73,8 @@ The API also allows to ask whether a specific node exists in your Prisma databas
 prisma.exists.Post({
   id: 'abc',
   author: {
-    name: 'Sarah',
-  },
+    name: 'Sarah'
+  }
 })
 ```
 
@@ -84,13 +84,13 @@ prisma.exists.Post({
 
 The `PrismaOptions` type has the following fields:
 
-| Key                    | Required | Type                   | Default | Note                                                                                                                             |
-| ---------------------- | -------- | ---------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `typeDefs`             | Yes      | `string`               | -       | Type definition string or file path to the schema definition of your Prisma service (typically a file called `database.graphql`) |
-| `endpoint`             | Yes      | `string`               | -       | The endpoint of your Prisma service                                                                                              |
-| `secret`               | Yes      | `string`               | -       | The secret of your Prisma service                                                                                                |
-| `fragmentReplacements` | No       | `FragmentReplacements` | `null`  | A list of GraphQL fragment definitions, specifying fields that are required for the resolver to function correctly               |
-| `debug`                | No       | `boolean`              | `false` | Log all queries/mutations to the console                                                                                         |
+| Key | Required |  Type | Default | Note |
+| ---  | --- | --- | --- | --- |
+| `typeDefs` | Yes | `string` |  - | Type definition string or file path to the schema definition of your Prisma service (typically a file called `database.graphql`) |
+| `endpoint` | Yes | `string` |  - | The endpoint of your Prisma service |
+| `secret` | Yes | `string` |  - | The secret of your Prisma service |
+| `fragmentReplacements` | No | `FragmentReplacements` |  `null` | A list of GraphQL fragment definitions, specifying fields that are required for the resolver to function correctly |
+| `debug` | No | `boolean` |  `false` | Log all queries/mutations to the console |
 
 ### `query` and `mutation`
 
@@ -106,10 +106,10 @@ Delegate resolver have the following interface:
 
 The input arguments are used as follows:
 
-* `args`: An object carrying potential arguments for the query/mutation
-* `info`: An object representing the selection set of the query/mutation, either expressed directly as a string or in the form of `GraphQLResolveInfo` (you can find more info about the `GraphQLResolveInfo` type [here](http://graphql.org/graphql-js/type/#graphqlobjecttype))
+- `args`: An object carrying potential arguments for the query/mutation
+- `info`: An object representing the selection set of the query/mutation, either expressed directly as a string or in the form of `GraphQLResolveInfo` (you can find more info about the `GraphQLResolveInfo` type [here](http://graphql.org/graphql-js/type/#graphqlobjecttype))
 
-The generic type `T` corresponds to the type of the respective field.
+The generic type `T` corresponds to the type of the respective field. 
 
 ### `exists`
 
@@ -135,7 +135,8 @@ const query = `
 
 const variables = { userId: 'abc' }
 
-prisma.request(query, variables).then(result => console.log(result))
+prisma.request(query, variables)
+  .then(result => console.log(result))
 // sample result:
 // {"data": { "user": { "id": "abc", "name": "Sarah" } } }
 ```
@@ -145,12 +146,12 @@ prisma.request(query, variables).then(result => console.log(result))
 If you just want to forward a query to the exact same underlying prisma query, you can use `forwardTo`:
 
 ```js
-const { forwardTo } = require('prisma-binding')
+const {forwardTo} = require('prisma-binding')
 
 const resolvers = {
   Query: {
-    posts: forwardTo('db'),
-  },
+    posts: forwardTo('db')
+  }
 }
 
 const server = new GraphQLServer({
@@ -167,14 +168,17 @@ const server = new GraphQLServer({
   }),
 })
 
-server.start(() => console.log(`Server is running on http://localhost:4000`))
+server.start(
+  () => console.log(`Server is running on http://localhost:4000`),
+)
 ```
+
 
 ## Usage
 
-* [graphql-boilerplate](https://github.com/graphcool/graphql-boilerplate).
-* [graphql-server-example](https://github.com/graphcool/graphql-server-example).
+- [graphql-boilerplate](https://github.com/graphcool/graphql-boilerplate).
+- [graphql-server-example](https://github.com/graphcool/graphql-server-example).
 
 ## Next steps
 
-* Code generation at build-time for the auto-generated delegate resolvers
+- Code generation at build-time for the auto-generated delegate resolvers
