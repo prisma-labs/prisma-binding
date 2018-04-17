@@ -29,6 +29,7 @@ export function makePrismaLink({
         Authorization: `Bearer ${token}`,
       },
       lazy: true,
+      inactivityTimeout: 30000,
     },
     webSocketImpl: ws,
   })
