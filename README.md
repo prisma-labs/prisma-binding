@@ -176,7 +176,7 @@ server.start(
 
 ## Usage
 
-- [graphql-boilerplate](https://github.com/graphcool/graphql-boilerplate).
+- [graphql-boilerplates](https://github.com/graphql-boilerplates).
 - [graphql-server-example](https://github.com/graphcool/graphql-server-example).
 
 ## Next steps
