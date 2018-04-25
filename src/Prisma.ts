@@ -43,17 +43,11 @@ export class Prisma extends Binding<QueryMap, SubscriptionMap> {
       throw new Error(`Invalid Prisma endpoint provided: ${endpoint}`)
     }
 
-    if (secret === undefined) {
-      throw new Error(
-        `No Prisma secret found. Please provide the \`secret\` constructor option.`,
-      )
-    }
-
     fragmentReplacements = fragmentReplacements || {}
 
     debug = debug || false
 
-    const token = sign({}, secret!)
+    const token = secret ? sign({}, secret) : undefined
     const link = makePrismaLink({ endpoint: endpoint!, token, debug })
 
     const remoteSchema = getCachedRemoteSchema(typeDefs, sharedLink)
@@ -62,11 +56,17 @@ export class Prisma extends Binding<QueryMap, SubscriptionMap> {
       sharedLink.setInnerLink(link)
     }
 
-    super({ schema: remoteSchema, fragmentReplacements, before, handler: Handler, subscriptionHandler: SubscriptionHandler })
+    super({
+      schema: remoteSchema,
+      fragmentReplacements,
+      before,
+      handler: Handler,
+      subscriptionHandler: SubscriptionHandler,
+    })
 
     this.exists = new Proxy(
       {},
-      new ExistsHandler(remoteSchema, this.existsDelegate.bind(this))
+      new ExistsHandler(remoteSchema, this.existsDelegate.bind(this)),
     )
   }
 
@@ -82,18 +82,21 @@ export class Prisma extends Binding<QueryMap, SubscriptionMap> {
     info?: GraphQLResolveInfo | string,
   ): Promise<boolean> {
     this.before()
-    return this
-      .delegate(operation, fieldName, args, context, info)
-      .then(res => res.length > 0)
+    return this.delegate(operation, fieldName, args, context, info).then(
+      res => res.length > 0,
+    )
   }
 }
 
 class ExistsHandler implements ProxyHandler<Prisma> {
-  constructor(private schema: GraphQLSchema, private delegate: any) { }
+  constructor(private schema: GraphQLSchema, private delegate: any) {}
 
   get(target: any, typeName: string) {
     return async (where: { [key: string]: any }): Promise<boolean> => {
-      const rootFieldName: string = this.findRootFieldName(typeName, this.schema)
+      const rootFieldName: string = this.findRootFieldName(
+        typeName,
+        this.schema,
+      )
       const args = { where }
       const info = buildExistsInfo(rootFieldName, this.schema)
       return this.delegate('query', rootFieldName, args, {}, info)
@@ -135,8 +138,8 @@ function getCachedTypeDefs(schemaPath: string): string {
 }
 
 function getCachedRemoteSchema(
-  typeDefs: string, 
-  link: SharedLink
+  typeDefs: string,
+  link: SharedLink,
 ): GraphQLSchema {
   if (remoteSchemaCache[typeDefs]) {
     return remoteSchemaCache[typeDefs]
