@@ -1386,9 +1386,9 @@ graphql-binding@1.2.5:
     graphql-tools "2.21.0"
     iterall "1.2.2"
 
-graphql-import@0.4.5:
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/graphql-import/-/graphql-import-0.4.5.tgz#e2f18c28d335733f46df8e0733d8deb1c6e2a645"
+graphql-import@0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/graphql-import/-/graphql-import-0.5.2.tgz#d7e05dc07d2d66e8d8c4bd408650f9fdaeddb8f8"
   dependencies:
     lodash "^4.17.4"
 
