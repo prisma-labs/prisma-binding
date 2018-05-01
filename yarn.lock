@@ -1402,6 +1402,16 @@ graphql-tools@2.21.0:
     iterall "^1.1.3"
     uuid "^3.1.0"
 
+graphql-tools@2.24.0:
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-2.24.0.tgz#bbacaad03924012a0edb8735a5e65df5d5563675"
+  dependencies:
+    apollo-link "^1.2.1"
+    apollo-utilities "^1.0.1"
+    deprecated-decorator "^0.1.6"
+    iterall "^1.1.3"
+    uuid "^3.1.0"
+
 graphql@0.13.1:
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.13.1.tgz#9b3db3d8e40d1827e4172404bfdd2e4e17a58b55"
