@@ -38,12 +38,12 @@
     "subscriptions-transport-ws": "0.9.6"
   },
   "devDependencies": {
-    "@types/graphql": "0.12.4",
+    "@types/graphql": "0.13.0",
     "@types/jsonwebtoken": "7.2.7",
     "@types/node": "9.4.6",
     "ava": "0.25.0",
     "copyfiles": "1.2.0",
-    "graphql": "0.13.1",
+    "graphql": "0.13.2",
     "tslint": "5.9.1",
     "tslint-config-standard": "7.0.0",
     "typescript": "2.7.2"
