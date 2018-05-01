@@ -1379,12 +1379,13 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-graphql-binding@1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/graphql-binding/-/graphql-binding-1.2.5.tgz#1c45b9da055cb0722f0348b6354be2e11b0a8c17"
+graphql-binding@1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/graphql-binding/-/graphql-binding-1.3.1.tgz#ce415fb068042422e8a980df0cdb0f5106f5fb47"
   dependencies:
-    graphql-tools "2.21.0"
+    graphql-tools "3.0.0"
     iterall "1.2.2"
+    object-path-immutable "^1.0.1"
 
 graphql-import@0.4.5:
   version "0.4.5"
@@ -1397,6 +1398,16 @@ graphql-tools@2.21.0:
   resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-2.21.0.tgz#c0d0fbda6f40a87c8d267a2989ade2ae8b9a288e"
   dependencies:
     apollo-link "^1.1.0"
+    apollo-utilities "^1.0.1"
+    deprecated-decorator "^0.1.6"
+    iterall "^1.1.3"
+    uuid "^3.1.0"
+
+graphql-tools@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-3.0.0.tgz#ff22ad15315fc268de8639d03936b911d78b9e9b"
+  dependencies:
+    apollo-link "1.2.1"
     apollo-utilities "^1.0.1"
     deprecated-decorator "^0.1.6"
     iterall "^1.1.3"
@@ -2195,6 +2206,10 @@ oauth-sign@~0.8.1:
 object-assign@^4.0.1, object-assign@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
+
+object-path-immutable@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/object-path-immutable/-/object-path-immutable-1.0.1.tgz#3c424052be3c54ec82def03f1b11b0c6e085c7ff"
 
 object.omit@^2.0.0:
   version "2.0.1"
