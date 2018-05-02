@@ -1,4 +1,4 @@
-import { FragmentReplacements } from 'graphql-binding'
+import { FragmentReplacement } from 'graphql-binding'
 import { GraphQLResolveInfo } from 'graphql'
 
 export interface Filter {
@@ -10,7 +10,7 @@ export interface Exists {
 }
 
 export interface BasePrismaOptions {
-  fragmentReplacements?: FragmentReplacements
+  fragmentReplacements?: FragmentReplacement[]
   endpoint?: string
   secret?: string
   debug?: boolean

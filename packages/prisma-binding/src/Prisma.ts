@@ -1,20 +1,15 @@
 import { Binding } from 'graphql-binding'
-import { Exists, PrismaOptions, QueryMap, SubscriptionMap } from './types'
+import { Exists, PrismaOptions } from './types'
 import { sign } from 'jsonwebtoken'
 import { makePrismaLink } from './link'
 import { buildExistsInfo } from './info'
-import { importSchema } from 'graphql-import'
-import { GraphQLSchema } from 'graphql'
 import { SharedLink } from './SharedLink'
-import { makeRemoteExecutableSchema } from 'graphql-tools'
 import { getTypesAndWhere } from './utils'
-
-const typeDefsCache: { [schemaPath: string]: string } = {}
-const remoteSchemaCache: { [typeDefs: string]: GraphQLSchema } = {}
+import { getCachedTypeDefs, getCachedRemoteSchema } from './cache'
 
 const sharedLink = new SharedLink()
 
-export class Prisma extends Binding<QueryMap, SubscriptionMap> {
+export class Prisma extends Binding {
   exists: Exists
 
   constructor({
@@ -48,7 +43,7 @@ export class Prisma extends Binding<QueryMap, SubscriptionMap> {
       )
     }
 
-    fragmentReplacements = fragmentReplacements || {}
+    fragmentReplacements = fragmentReplacements || []
 
     debug = debug || false
 
@@ -94,32 +89,4 @@ export class Prisma extends Binding<QueryMap, SubscriptionMap> {
 
     return {}
   }
-}
-
-function getCachedTypeDefs(schemaPath: string): string {
-  if (typeDefsCache[schemaPath]) {
-    return typeDefsCache[schemaPath]
-  }
-
-  const schema = importSchema(schemaPath)
-  typeDefsCache[schemaPath] = schema
-
-  return schema
-}
-
-function getCachedRemoteSchema(
-  typeDefs: string,
-  link: SharedLink,
-): GraphQLSchema {
-  if (remoteSchemaCache[typeDefs]) {
-    return remoteSchemaCache[typeDefs]
-  }
-
-  const remoteSchema = makeRemoteExecutableSchema({
-    link: sharedLink,
-    schema: typeDefs,
-  })
-  remoteSchemaCache[typeDefs] = remoteSchema
-
-  return remoteSchema
 }
