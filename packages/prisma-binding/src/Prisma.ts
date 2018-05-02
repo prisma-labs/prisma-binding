@@ -37,17 +37,11 @@ export class Prisma extends Binding {
       throw new Error(`Invalid Prisma endpoint provided: ${endpoint}`)
     }
 
-    if (secret === undefined) {
-      throw new Error(
-        `No Prisma secret found. Please provide the \`secret\` constructor option.`,
-      )
-    }
-
     fragmentReplacements = fragmentReplacements || []
 
     debug = debug || false
 
-    const token = sign({}, secret!)
+    const token = secret ? sign({}, secret!) : undefined
     const link = makePrismaLink({ endpoint: endpoint!, token, debug })
 
     const remoteSchema = getCachedRemoteSchema(typeDefs, sharedLink)

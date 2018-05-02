@@ -1,19 +1,21 @@
 {
   "name": "prisma-binding",
   "version": "1.6.0-beta.1",
-  "main": "dist/src/index.js",
-  "typings": "./dist/src/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "main": "dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "files": ["dist"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/graphcool/graphcool-binding.git"
   },
   "author": "Johannes Schickling <johannes@graph.cool>",
   "contributors": [
-    "Kim Brandwijk <kim.brandwijk@gmail.com>"
+    "Kim Brandwijk <kim.brandwijk@gmail.com>",
+    "Tim Suchanek <suchanek@prisma.io>"
   ],
+  "bin": {
+    "prisma-binding": "./dist/bin.js"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/graphcool/graphcool-binding/issues"
@@ -23,7 +25,8 @@
     "prepublish": "npm run build",
     "build": "rm -rf dist && tsc -d",
     "lint": "tslint --type-check --project tsconfig.json {src,test}/**/*.ts",
-    "test": "npm run lint && npm run build && copyfiles -u 2 tests/fixtures/* dist/tests/fixtures && ava"
+    "test":
+      "npm run lint && npm run build && copyfiles -u 2 tests/fixtures/* dist/tests/fixtures && ava"
   },
   "dependencies": {
     "apollo-link": "1.2.1",

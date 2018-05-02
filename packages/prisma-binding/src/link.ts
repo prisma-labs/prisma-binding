@@ -11,12 +11,12 @@ export function makePrismaLink({
   debug,
 }: {
   endpoint: string
-  token: string
-  debug: boolean
+  token?: string
+  debug?: boolean
 }): ApolloLink {
   const httpLink = new HTTPLinkDataloader({
     uri: endpoint,
-    headers: { Authorization: `Bearer ${token}` },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
   })
 
   // also works for https/wss
@@ -25,9 +25,11 @@ export function makePrismaLink({
     uri: wsEndpoint,
     options: {
       reconnect: true,
-      connectionParams: {
-        Authorization: `Bearer ${token}`,
-      },
+      connectionParams: token
+        ? {
+            Authorization: `Bearer ${token}`,
+          }
+        : {},
       lazy: true,
     },
     webSocketImpl: ws,

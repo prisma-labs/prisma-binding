@@ -24,7 +24,7 @@ ${this.renderExports()}
 import { makeBinding } from 'prisma-binding'`
   }
   renderExports() {
-    return `export const Binding = makeBinding(typeDefs)`
+    return `export const Prisma = makeBinding(typeDefs)`
   }
   renderTypedefs() {
     return (

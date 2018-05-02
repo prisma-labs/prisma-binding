@@ -1,7 +1,7 @@
 import { TypescriptGenerator } from 'graphql-binding'
 import { printSchema } from 'graphql'
 
-export class PrismaGenerator extends TypescriptGenerator {
+export class PrismaTypescriptGenerator extends TypescriptGenerator {
   constructor(options) {
     super(options)
   }
@@ -16,7 +16,7 @@ interface BindingInstance {
 }
 
 interface BindingConstructor<T> {
-  new(secret: string): T
+  new(options: BasePrismaOptions): T
 }
 /**
  * Type Defs
@@ -34,10 +34,11 @@ ${this.renderTypes()}`
   }
   renderImports() {
     return `\
-import { makeBinding } from 'prisma-binding'`
+import { GraphQLResolveInfo } from 'graphql'
+import { makeBinding, BasePrismaOptions } from 'prisma-binding'`
   }
   renderExports() {
-    return `export const Binding = makeBinding(typeDefs)`
+    return `export const Prisma = makeBinding<BindingConstructor<BindingInstance>>(typeDefs)`
   }
   renderTypedefs() {
     return (
