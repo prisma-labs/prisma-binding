@@ -35,10 +35,10 @@ ${this.renderTypes()}`
   renderImports() {
     return `\
 import { GraphQLResolveInfo } from 'graphql'
-import { makeBindingClass, BasePrismaOptions } from 'prisma-binding'`
+import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'`
   }
   renderExports() {
-    return `export const Prisma = makeBindingClass<BindingConstructor<BindingInstance>>(typeDefs)`
+    return `export const Prisma = makePrismaBindingClass<BindingConstructor<BindingInstance>>({typeDefs})`
   }
   renderTypedefs() {
     return (
