@@ -26,7 +26,8 @@ export function getCachedRemoteSchema(
   }
 
   const remoteSchema = makeRemoteExecutableSchema({
-    link,
+    // TODO fix typings
+    link: link as any,
     schema: typeDefs,
   })
   remoteSchemaCache[typeDefs] = remoteSchema

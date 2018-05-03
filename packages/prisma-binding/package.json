@@ -1,9 +1,11 @@
 {
   "name": "prisma-binding",
-  "version": "1.6.0-beta.1",
+  "version": "1.6.0-beta.2",
   "main": "dist/index.js",
   "typings": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/graphcool/graphcool-binding.git"
@@ -25,31 +27,30 @@
     "prepublish": "npm run build",
     "build": "rm -rf dist && tsc -d",
     "lint": "tslint --type-check --project tsconfig.json {src,test}/**/*.ts",
-    "test":
-      "npm run lint && npm run build && copyfiles -u 2 tests/fixtures/* dist/tests/fixtures && ava"
+    "test": "npm run lint && npm run build && copyfiles -u 2 tests/fixtures/* dist/tests/fixtures && ava"
   },
   "dependencies": {
-    "apollo-link": "1.2.1",
-    "apollo-link-error": "1.0.7",
-    "apollo-link-ws": "1.0.7",
-    "cross-fetch": "2.0.0",
+    "apollo-link": "1.2.2",
+    "apollo-link-error": "1.0.9",
+    "apollo-link-ws": "1.0.8",
+    "cross-fetch": "2.1.1",
     "graphql-binding": "^1.4.0-beta.6",
-    "graphql-import": "0.4.5",
-    "graphql-tools": "2.21.0",
+    "graphql-import": "0.5.2",
+    "graphql-tools": "3.0.0",
     "http-link-dataloader": "^0.1.2",
-    "jsonwebtoken": "^8.1.0",
-    "subscriptions-transport-ws": "0.9.6"
+    "jsonwebtoken": "^8.2.1",
+    "subscriptions-transport-ws": "0.9.8"
   },
   "devDependencies": {
-    "@types/graphql": "0.12.4",
-    "@types/jsonwebtoken": "7.2.6",
-    "@types/node": "9.4.6",
+    "@types/graphql": "0.13.0",
+    "@types/jsonwebtoken": "7.2.7",
+    "@types/node": "10.0.3",
     "ava": "0.25.0",
-    "copyfiles": "1.2.0",
-    "graphql": "0.13.1",
+    "copyfiles": "2.0.0",
+    "graphql": "0.13.2",
     "tslint": "5.9.1",
     "tslint-config-standard": "7.0.0",
-    "typescript": "2.7.2"
+    "typescript": "2.8.3"
   },
   "peerDependencies": {
     "graphql": "^0.11.0 || ^0.12.0 || ^0.13.0"

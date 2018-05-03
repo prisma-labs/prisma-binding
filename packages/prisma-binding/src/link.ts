@@ -35,7 +35,8 @@ export function makePrismaLink({
     webSocketImpl: ws,
   })
 
-  const backendLink = split(op => isSubscription(op), wsLink, httpLink)
+  // TODO fix link typings
+  const backendLink = split(op => isSubscription(op), wsLink, httpLink as any)
 
   const reportErrors = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)

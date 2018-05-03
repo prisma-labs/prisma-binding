@@ -1,5 +1,5 @@
 import test from 'ava'
-import { Prisma } from '../src/Prisma'
+import { Prisma } from './Prisma'
 import { join } from 'path'
 
 test('multiple Prisma instances with unique schemas do not share schemas', t => {
