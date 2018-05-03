@@ -7,7 +7,6 @@ import * as path from 'path'
 import { PrismaGenerator } from './PrismaGenerator'
 import { PrismaTypescriptGenerator } from './PrismaTypescriptGenerator'
 import { buildSchema, printSchema } from 'graphql'
-require('ts-node').register()
 
 const argv = yargs
   .usage(`Usage: $0 -i [input] -g [generator] -b [outputBinding]`)
@@ -47,6 +46,10 @@ async function run(argv) {
     schema,
     inputSchemaPath: path.resolve(input),
     outputBindingPath: path.resolve(outputBinding),
+  }
+
+  if (generator === 'typescript') {
+    require('ts-node').register()
   }
   const generatorInstance =
     generator === 'typescript'
