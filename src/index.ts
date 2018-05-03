@@ -3,4 +3,4 @@ export { makePrismaLink } from './link'
 export { BasePrismaOptions } from './types'
 export { extractFragmentReplacements, forwardTo } from 'graphql-binding'
 
-export { makeBinding } from './makeBinding'
+export { makeBindingClass } from './makeBindingClass'

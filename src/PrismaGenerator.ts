@@ -21,10 +21,10 @@ ${this.renderExports()}
   }
   renderImports() {
     return `\
-import { makeBinding } from 'prisma-binding'`
+const { makeBindingClass } = require('prisma-binding')`
   }
   renderExports() {
-    return `export const Prisma = makeBinding(typeDefs)`
+    return `module.exports = makeBindingClass(typeDefs)`
   }
   renderTypedefs() {
     return (
