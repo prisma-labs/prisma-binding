@@ -24,7 +24,7 @@ export interface BindingInstance {
   subscription: Subscription
   exists: Exists
   request: <T = any>(query: string, variables?: {[key: string]: any}) => Promise<T>
-  delegate(operation: QueryOrMutation, fieldName: string, args: {
+  delegate(operation: 'query' | 'mutation', fieldName: string, args: {
     [key: string]: any;
 }, infoOrQuery?: GraphQLResolveInfo | string, options?: Options): Promise<any>;
 delegateSubscription(fieldName: string, args?: {
@@ -52,8 +52,9 @@ ${this.renderTypes()}`
   }
   renderImports() {
     return `\
-import { GraphQLResolveInfo } from 'graphql'
+import { GraphQLResolveInfo, GraphQLSchema } from 'graphql'
 import { IResolvers } from 'graphql-tools/dist/Interfaces'
+import { Options } from 'graphql-binding'
 import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'`
   }
   renderExports() {
