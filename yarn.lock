@@ -2875,9 +2875,9 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
-subscriptions-transport-ws@0.9.6:
-  version "0.9.6"
-  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.6.tgz#5ff86a0746316ca3eb2423b118b8bc74a6793e1b"
+subscriptions-transport-ws@0.9.8:
+  version "0.9.8"
+  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.8.tgz#3a26ab96e06f78cf4ace8d083f6227fa55970947"
   dependencies:
     backo2 "^1.0.2"
     eventemitter3 "^2.0.3"
