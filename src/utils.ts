@@ -8,7 +8,7 @@ import {
 export function getExistsTypes(queryType: GraphQLObjectType) {
   const types = getTypesAndWhere(queryType)
   return types
-    .map(({ type, where }) => `${type}: (where?: ${where}): Promise<boolean>`)
+    .map(({ type, where }) => `  ${type}: (where?: ${where}): Promise<boolean>`)
     .join('\n')
 }
 
@@ -16,9 +16,9 @@ export function getTypesAndWhere(queryType: GraphQLObjectType) {
   const fields = queryType.getFields()
   const listFields = Object.keys(fields).reduce(
     (acc, field) => {
-      const deepType = getDeepListType(field)
+      const deepType = getDeepListType(fields[field])
       if (deepType) {
-        acc.push({ field, deepType })
+        acc.push({ field: fields[field], deepType })
       }
       return acc
     },

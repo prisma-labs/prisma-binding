@@ -1,5 +1,6 @@
 import { TypescriptGenerator } from 'graphql-binding'
 import { printSchema } from 'graphql'
+import { getExistsTypes } from './utils'
 
 export class PrismaTypescriptGenerator extends TypescriptGenerator {
   constructor(options) {
@@ -9,14 +10,30 @@ export class PrismaTypescriptGenerator extends TypescriptGenerator {
     return this.compile`\
 ${this.renderImports()}
 
-interface BindingInstance {
-  query: ${this.renderQueries()}
-  mutation: ${this.renderMutations()}
-  subscription: ${this.renderSubscriptions()}
+export interface Query ${this.renderQueries()}
+
+export interface Mutation ${this.renderMutations()}
+
+export interface Subscription ${this.renderSubscriptions()}
+
+export interface Exists ${this.renderExists()}
+
+export interface BindingInstance {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+  exists: Exists
   request: <T = any>(query: string, variables?: {[key: string]: any}) => Promise<T>
+  delegate(operation: QueryOrMutation, fieldName: string, args: {
+    [key: string]: any;
+}, infoOrQuery?: GraphQLResolveInfo | string, options?: Options): Promise<any>;
+delegateSubscription(fieldName: string, args?: {
+    [key: string]: any;
+}, infoOrQuery?: GraphQLResolveInfo | string, options?: Options): Promise<AsyncIterator<any>>;
+getAbstractResolvers(filterSchema?: GraphQLSchema | string): IResolvers;
 }
 
-interface BindingConstructor<T> {
+export interface BindingConstructor<T> {
   new(options: BasePrismaOptions): T
 }
 /**
@@ -36,6 +53,7 @@ ${this.renderTypes()}`
   renderImports() {
     return `\
 import { GraphQLResolveInfo } from 'graphql'
+import { IResolvers } from 'graphql-tools/dist/Interfaces'
 import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'`
   }
   renderExports() {
@@ -45,5 +63,12 @@ import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'`
     return (
       'const typeDefs = `' + printSchema(this.schema).replace(/`/g, '\\`') + '`'
     )
+  }
+  renderExists() {
+    const queryType = this.schema.getQueryType()
+    if (queryType) {
+      return `{\n${getExistsTypes(queryType)}\n}`
+    }
+    return '{}'
   }
 }
