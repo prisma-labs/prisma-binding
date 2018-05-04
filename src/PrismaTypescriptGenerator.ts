@@ -13,6 +13,7 @@ interface BindingInstance {
   query: ${this.renderQueries()}
   mutation: ${this.renderMutations()}
   subscription: ${this.renderSubscriptions()}
+  request: <T = any>(query: string, variables?: {[key: string]: any}) => Promise<T>
 }
 
 interface BindingConstructor<T> {
