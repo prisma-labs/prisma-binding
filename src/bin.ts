@@ -74,6 +74,9 @@ function getSchemaFromInput(input) {
   }
 
   if (input.endsWith('.js') || input.endsWith('.ts')) {
+    if (input.endsWith('.ts')) {
+      require('ts-node').register()
+    }
     const schema = require(path.resolve(input))
     if (schema.default) {
       return schema.default
