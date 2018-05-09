@@ -8,7 +8,9 @@ import {
 export function getExistsTypes(queryType: GraphQLObjectType) {
   const types = getTypesAndWhere(queryType)
   return types
-    .map(({ type, where }) => `  ${type}(where?: ${where}): Promise<boolean>`)
+    .map(
+      ({ type, where }) => `  ${type}(where?: ${where}) => Promise<boolean>`,
+    )
     .join('\n')
 }
 
