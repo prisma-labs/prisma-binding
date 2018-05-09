@@ -24,7 +24,9 @@ ${this.renderExports()}
 const { makePrismaBindingClass } = require('prisma-binding')`
   }
   renderExports() {
-    return `module.exports = makePrismaBindingClass({typeDefs})`
+    return `\
+const Prisma = makePrismaBindingClass({ typeDefs })
+module.exports = { Prisma }`
   }
   renderTypedefs() {
     return (
