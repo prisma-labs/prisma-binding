@@ -31,6 +31,7 @@ export function makePrismaLink({
           }
         : {},
       lazy: true,
+      inactivityTimeout: 30000,
     },
     webSocketImpl: ws,
   })
