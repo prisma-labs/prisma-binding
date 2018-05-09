@@ -18,7 +18,7 @@ export interface Subscription ${this.renderSubscriptions()}
 
 export interface Exists ${this.renderExists()}
 
-export interface BindingInstance {
+export interface Prisma {
   query: Query
   mutation: Mutation
   subscription: Subscription
@@ -58,7 +58,7 @@ import { Options } from 'graphql-binding'
 import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'`
   }
   renderExports() {
-    return `export const Prisma = makePrismaBindingClass<BindingConstructor<BindingInstance>>({typeDefs})`
+    return `export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({typeDefs})`
   }
   renderTypedefs() {
     return (
