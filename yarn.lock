@@ -1300,9 +1300,9 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-graphql-binding@^1.4.0-beta.23:
-  version "1.4.0-beta.24"
-  resolved "https://registry.yarnpkg.com/graphql-binding/-/graphql-binding-1.4.0-beta.24.tgz#7d593064447ebf90623a487ecb7ca7b8e9b5f654"
+graphql-binding@^1.4.0-beta.25:
+  version "1.4.0-beta.25"
+  resolved "https://registry.yarnpkg.com/graphql-binding/-/graphql-binding-1.4.0-beta.25.tgz#b816dfd38afa82a95e3180af13c8baa7be2b6815"
   dependencies:
     graphql-import "^0.5.2"
     graphql-tools "3.0.0"
