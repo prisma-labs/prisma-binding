@@ -1,6 +1,6 @@
 {
   "name": "prisma-binding",
-  "version": "1.6.0-beta.21",
+  "version": "1.6.0-beta.22",
   "main": "dist/index.js",
   "typings": "./dist/index.d.ts",
   "files": [
