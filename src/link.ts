@@ -12,7 +12,7 @@ export function makePrismaLink({
 }: {
   endpoint: string
   token?: string
-  debug: boolean
+  debug?: boolean
 }): ApolloLink {
   const httpLink = new HTTPLinkDataloader({
     uri: endpoint,
@@ -25,16 +25,19 @@ export function makePrismaLink({
     uri: wsEndpoint,
     options: {
       reconnect: true,
-      connectionParams: {
-        Authorization: `Bearer ${token}`,
-      },
+      connectionParams: token
+        ? {
+            Authorization: `Bearer ${token}`,
+          }
+        : {},
       lazy: true,
       inactivityTimeout: 30000,
     },
     webSocketImpl: ws,
   })
 
-  const backendLink = split(op => isSubscription(op), wsLink, httpLink)
+  // TODO fix link typings
+  const backendLink = split(op => isSubscription(op), wsLink, httpLink as any)
 
   const reportErrors = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)

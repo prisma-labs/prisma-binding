@@ -10,7 +10,7 @@ export function buildExistsInfo(
   rootFieldName: string,
   schema: GraphQLSchema,
 ): GraphQLResolveInfo {
-  const queryType = schema.getQueryType()
+  const queryType = schema.getQueryType() || undefined!
   const type = queryType.getFields()[rootFieldName].type
 
   // make sure that just list types are queried
@@ -41,13 +41,14 @@ export function buildExistsInfo(
     schema,
     fieldName: rootFieldName,
     returnType: type,
-    parentType: schema.getQueryType(),
-    path: undefined,
+    parentType: queryType,
+    path: undefined!,
     rootValue: null,
     operation: {
       kind: 'OperationDefinition',
       operation: 'query',
       selectionSet: { kind: 'SelectionSet', selections: [] },
+      variableDefinitions: [],
     },
     variableValues: {},
   }

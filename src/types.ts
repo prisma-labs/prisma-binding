@@ -1,12 +1,16 @@
-import { FragmentReplacements } from 'graphql-binding'
+import { FragmentReplacement } from 'graphql-binding'
 import { GraphQLResolveInfo } from 'graphql'
 
+export interface Filter {
+  [key: string]: any
+}
+
 export interface Exists {
-  [rootField: string]: (filter: { [key: string]: any }) => Promise<boolean>
+  [rootField: string]: (filter: Filter) => Promise<boolean>
 }
 
 export interface BasePrismaOptions {
-  fragmentReplacements?: FragmentReplacements
+  fragmentReplacements?: FragmentReplacement[]
   endpoint?: string
   secret?: string
   debug?: boolean
