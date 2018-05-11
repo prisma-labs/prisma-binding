@@ -86,7 +86,7 @@ The `PrismaOptions` type has the following fields:
 
 | Key | Required |  Type | Default | Note |
 | ---  | --- | --- | --- | --- |
-| `typeDefs` | Yes | `string` |  - | Type definition string or file path to the schema definition of your Prisma service (typically a file called `database.graphql`) |
+| `typeDefs` | Yes | `string` |  - | Type definition string or file path to the schema definition of your Prisma service (typically a file called `database.graphql` or `prisma.graphql`) |
 | `endpoint` | Yes | `string` |  - | The endpoint of your Prisma service |
 | `secret` | Yes | `string` |  - | The secret of your Prisma service |
 | `fragmentReplacements` | No | `FragmentReplacements` |  `null` | A list of GraphQL fragment definitions, specifying fields that are required for the resolver to function correctly |
