@@ -74,7 +74,7 @@ export class Prisma extends Binding {
             this.delegate(
               'query',
               pluralFieldName,
-              args,
+              { where: args },
               buildExistsInfo(pluralFieldName, this.schema),
             ).then(res => res.length > 0),
         }
