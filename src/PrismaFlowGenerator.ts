@@ -8,7 +8,9 @@ export class PrismaFlowGenerator extends FlowGenerator {
   }
   render() {
     return this.compile`\
-// @flow
+/**
+ * @flow
+ */
 ${this.renderImports()}
 
 export interface Query ${this.renderQueries()}
