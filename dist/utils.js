@@ -11,6 +11,15 @@ function getExistsTypes(queryType) {
         .join('\n');
 }
 exports.getExistsTypes = getExistsTypes;
+function getExistsFlowTypes(queryType) {
+    var types = getTypesAndWhere(queryType);
+    return types.map(function (_a) {
+        var type = _a.type, where = _a.where;
+        return type + "(where?: " + where + "): Promise<boolean>;";
+    })
+        .join('\n');
+}
+exports.getExistsFlowTypes = getExistsFlowTypes;
 function getTypesAndWhere(queryType) {
     var fields = queryType.getFields();
     var listFields = Object.keys(fields).reduce(function (acc, field) {
