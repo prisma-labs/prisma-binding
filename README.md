@@ -1,6 +1,6 @@
 # prisma-binding
 
-[![CircleCI](https://circleci.com/gh/graphcool/prisma-binding.svg?style=shield)](https://circleci.com/gh/graphcool/prisma-binding) [![npm version](https://badge.fury.io/js/prisma-binding.svg)](https://badge.fury.io/js/prisma-binding)
+[![CircleCI](https://circleci.com/gh/prismagraphql/prisma-binding.svg?style=shield)](https://circleci.com/gh/prismagraphql/prisma-binding) [![npm version](https://badge.fury.io/js/prisma-binding.svg)](https://badge.fury.io/js/prisma-binding)
 
 GraphQL Binding for Prisma services (GraphQL Database)
 
@@ -182,3 +182,5 @@ server.start(
 ## Next steps
 
 - Code generation at build-time for the auto-generated delegate resolvers
+
+<p align="center"><a href="https://oss.prisma.io"><img src="https://imgur.com/IMU2ERq.png" alt="Prisma" height="170px"></a></p>
