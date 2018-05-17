@@ -26,7 +26,7 @@ export interface Prisma {
   mutation: Mutation;
   subscription: Subscription;
   exists: Exists;
-  request(query: string, variables?: {[key: string]: any}): Promise<any>
+  request(query: string, variables?: {[key: string]: any}): Promise<any>;
   delegate(operation: 'query' | 'mutation', fieldName: string, args: {
     [key: string]: any;
 }, infoOrQuery?: GraphQLResolveInfo | string, options?: Options): Promise<any>;
