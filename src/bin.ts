@@ -52,10 +52,19 @@ async function run(argv) {
   if (language === 'typescript') {
     require('ts-node').register()
   }
-  const generatorInstance =
-    language === 'typescript' || 'flow'
-      ? language === 'typescript' ? new PrismaTypescriptGenerator(args) : new PrismaFlowGenerator(args)
-      : new PrismaGenerator(args)
+  let generatorInstance;
+
+  switch (language) {
+    case 'typescript':
+      generatorInstance = new PrismaTypescriptGenerator(args);
+      break;
+    case 'flow':
+      generatorInstance = new PrismaFlowGenerator(args);
+      break;
+    default:
+      generatorInstance = new PrismaGenerator(args)
+  }
+
   const code = generatorInstance.render()
 
   mkdirp(path.dirname(outputBinding))

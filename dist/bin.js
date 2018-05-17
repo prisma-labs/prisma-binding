@@ -85,9 +85,16 @@ function run(argv) {
             if (language === 'typescript') {
                 require('ts-node').register();
             }
-            generatorInstance = language === 'typescript' || 'flow'
-                ? language === 'typescript' ? new PrismaTypescriptGenerator_1.PrismaTypescriptGenerator(args) : new PrismaFlowGenerator_1.PrismaFlowGenerator(args)
-                : new PrismaGenerator_1.PrismaGenerator(args);
+            switch (language) {
+                case 'typescript':
+                    generatorInstance = new PrismaTypescriptGenerator_1.PrismaTypescriptGenerator(args);
+                    break;
+                case 'flow':
+                    generatorInstance = new PrismaFlowGenerator_1.PrismaFlowGenerator(args);
+                    break;
+                default:
+                    generatorInstance = new PrismaGenerator_1.PrismaGenerator(args);
+            }
             code = generatorInstance.render();
             mkdirp(path.dirname(outputBinding));
             fs.writeFileSync(outputBinding, code);
