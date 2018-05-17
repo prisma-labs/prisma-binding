@@ -1,6 +1,6 @@
 import { FlowGenerator } from "graphql-binding";
 import { printSchema } from 'graphql'
-import { getExistsTypes } from './utils'
+import { getExistsFlowTypes } from './utils'
 
 export class PrismaFlowGenerator extends FlowGenerator {
   constructor(options) {
@@ -22,7 +22,7 @@ export interface Prisma {
   query: Query;
   mutation: Mutation;
   subscription: Subscription;
-  exists: Exists
+  exists: Exists;
   request(query: string, variables?: {[key: string]: any}): Promise<any>
   delegate(operation: 'query' | 'mutation', fieldName: string, args: {
     [key: string]: any;
@@ -68,7 +68,7 @@ import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'`
   renderExists() {
     const queryType = this.schema.getQueryType()
     if (queryType) {
-      return `{\n${getExistsTypes(queryType)}\n}`
+      return `{\n${getExistsFlowTypes(queryType)}\n}`
     }
     return '{}'
   }
