@@ -61,7 +61,7 @@ import { Options } from 'graphql-binding'
 import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'`
   }
   renderExports() {
-    return `export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({typeDefs})`
+    return `export const Prisma: BindingConstructor<Prisma> = makePrismaBindingClass({typeDefs})`
   }
   renderTypedefs() {
     return (

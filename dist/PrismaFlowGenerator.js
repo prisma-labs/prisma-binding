@@ -29,7 +29,7 @@ var PrismaFlowGenerator = /** @class */ (function (_super) {
         return "import { GraphQLResolveInfo, GraphQLSchema } from 'graphql'\nimport { IResolvers } from 'graphql-tools/dist/Interfaces'\nimport { Options } from 'graphql-binding'\nimport { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'";
     };
     PrismaFlowGenerator.prototype.renderExports = function () {
-        return "export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({typeDefs})";
+        return "export const Prisma: BindingConstructor<Prisma> = makePrismaBindingClass({typeDefs})";
     };
     PrismaFlowGenerator.prototype.renderTypedefs = function () {
         return ('const typeDefs = `' + graphql_1.printSchema(this.schema).replace(/`/g, '\\`') + '`');
