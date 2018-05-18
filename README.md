@@ -48,7 +48,7 @@ const prisma = new Prisma({
 })
 
 // Retrieve `name` of a specific user
-prisma.query.user({ where { id: 'abc' } }, '{ name }')
+prisma.query.user({ where: { id: 'abc' } }, '{ name }')
 
 // Retrieve `id` and `name` of all users
 prisma.query.users(null, '{ id name }')
