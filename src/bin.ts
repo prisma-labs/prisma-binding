@@ -7,6 +7,7 @@ import * as path from 'path'
 import { PrismaGenerator } from './PrismaGenerator'
 import { PrismaTypescriptGenerator } from './PrismaTypescriptGenerator'
 import { buildSchema, printSchema } from 'graphql'
+import { importSchema } from 'graphql-import'
 
 const argv = yargs
   .usage(`Usage: $0 -i [input] -g [generator] -b [outputBinding]`)
@@ -70,7 +71,7 @@ async function run(argv) {
 
 function getSchemaFromInput(input) {
   if (input.endsWith('.graphql') || input.endsWith('.gql')) {
-    return buildSchema(fs.readFileSync(input, 'utf-8'))
+    return buildSchema(importSchema(input))
   }
 
   if (input.endsWith('.js') || input.endsWith('.ts')) {
