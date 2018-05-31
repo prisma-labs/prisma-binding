@@ -43,7 +43,7 @@ If you instantiate `Prisma` based on this service, you'll be able to send the fo
 // Instantiate `Prisma` based on concrete service
 const prisma = new Prisma({
   typeDefs: 'schemas/database.graphql',
-  endpoint: 'https://us1.prisma.sh/demo/my-service/dev'
+  endpoint: 'https://us1.prisma.sh/demo/my-service/dev',
   secret: 'my-super-secret-secret'
 })
 
