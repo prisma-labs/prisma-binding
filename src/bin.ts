@@ -6,6 +6,7 @@ import * as mkdirp from 'mkdirp'
 import * as path from 'path'
 import { PrismaGenerator } from './PrismaGenerator'
 import { PrismaTypescriptGenerator } from './PrismaTypescriptGenerator'
+import { PrismaFlowGenerator } from "./PrismaFlowGenerator";
 import { buildSchema, printSchema } from 'graphql'
 import { importSchema } from 'graphql-import'
 
@@ -21,7 +22,7 @@ const argv = yargs
     language: {
       alias: 'l',
       describe:
-        'Type of the generator. Available generators: typescript, javascript',
+        'Type of the generator. Available generators: typescript, javascript, flow',
       type: 'string',
     },
     outputBinding: {
@@ -52,10 +53,19 @@ async function run(argv) {
   if (language === 'typescript') {
     require('ts-node').register()
   }
-  const generatorInstance =
-    language === 'typescript'
-      ? new PrismaTypescriptGenerator(args)
-      : new PrismaGenerator(args)
+  let generatorInstance;
+
+  switch (language) {
+    case 'typescript':
+      generatorInstance = new PrismaTypescriptGenerator(args);
+      break;
+    case 'flow':
+      generatorInstance = new PrismaFlowGenerator(args);
+      break;
+    default:
+      generatorInstance = new PrismaGenerator(args)
+  }
+
   const code = generatorInstance.render()
 
   mkdirp(path.dirname(outputBinding))
