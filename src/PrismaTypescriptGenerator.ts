@@ -36,18 +36,20 @@ getAbstractResolvers(filterSchema?: GraphQLSchema | string): IResolvers;
 export interface BindingConstructor<T> {
   new(options: BasePrismaOptions): T
 }
+
 /**
  * Type Defs
-*/
-
+ */
 ${this.renderTypedefs()}
 
+/**
+ * Exports
+ */
 ${this.renderExports()}
 
 /**
  * Types
-*/
-
+ */
 ${this.renderTypes()}`
   }
   renderImports() {
