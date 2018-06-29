@@ -496,7 +496,12 @@ input PostWhereUniqueInput {
   id: ID
 }
 
+type TypeWithoutWhereInQuery implements Node {
+    id: ID!
+}
+
 type Query {
+    typesWithoutWhereInQuery: [TypeWithoutWhereInQuery]!
   posts(
     where: PostWhereInput
     orderBy: PostOrderByInput
