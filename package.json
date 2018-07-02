@@ -48,7 +48,7 @@
     "ava": "0.25.0",
     "copyfiles": "2.0.0",
     "graphql": "0.13.2",
-    "semantic-release": "^15.5.2",
+    "semantic-release": "15.6.3",
     "tslint": "5.9.1",
     "tslint-config-standard": "7.0.0",
     "typescript": "2.8.3"
