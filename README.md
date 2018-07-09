@@ -6,7 +6,7 @@ GraphQL Binding for Prisma services (GraphQL Database)
 
 ## Example
 
-You can check out an example of how to use `prisma-binding` together with codegen [here](https://github.com/graphql-binding/graphql-binding/tree/master/examples/full-example).
+You can check out an example of how to use `prisma-binding` together with codegen [here](https://github.com/graphql-binding/graphql-binding/tree/master/examples/full-example) and [here](https://github.com/prismagraphql/graphql-server-example)
 
 ## Overview
 
