@@ -4,6 +4,10 @@
 
 GraphQL Binding for Prisma services (GraphQL Database)
 
+## Example
+
+You can check out an example of how to use `prisma-binding` together with codegen [here](https://github.com/graphql-binding/graphql-binding/tree/master/examples/full-example).
+
 ## Overview
 
 `prisma-binding` provides a convenience layer for building GraphQL servers on top of Prisma services. In short, it simplifies implementing your GraphQL resolvers by _delegating_ execution of queries (or mutations) to the API of the underlying Prisma database service.
