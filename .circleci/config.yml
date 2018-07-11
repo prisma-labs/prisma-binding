@@ -5,7 +5,6 @@ jobs:
       - image: circleci/node
     steps:
       - checkout
-      - run: sudo npm install -g semantic-release@12.0.0
       - run: yarn install
       - run: yarn test
-      - run: semantic-release
+      - run: ./node_modules/.bin/semantic-release
