@@ -21,7 +21,7 @@ export interface Subscription ${this.renderSubscriptions()}
 
 export interface Exists ${this.renderExists()}
 
-export interface Prisma {
+interface Prisma {
   query: Query;
   mutation: Mutation;
   subscription: Subscription;
@@ -37,7 +37,7 @@ getAbstractResolvers(filterSchema?: GraphQLSchema | string): IResolvers;
 }
 
 export interface BindingConstructor<T> {
-  new(options: BasePrismaOptions): T
+  new(options: BPOType): T
 }
 /**
  * Type Defs
@@ -55,13 +55,17 @@ ${this.renderTypes()}`
   }
   renderImports() {
     return `\
-import { GraphQLResolveInfo, GraphQLSchema } from 'graphql'
-import { IResolvers } from 'graphql-tools/dist/Interfaces'
-import { Options } from 'graphql-binding'
+import type { GraphQLResolveInfo, GraphQLSchema } from 'graphql'
+import type { IResolvers } from 'graphql-tools/dist/Interfaces'
+import type { Options } from 'graphql-binding'
+import type { BasePrismaOptions as BPOType } from 'prisma-binding'
 import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'`
+
   }
   renderExports() {
-    return `export const Prisma: BindingConstructor<Prisma> = makePrismaBindingClass({typeDefs})`
+    return `const prisma: BindingConstructor<Prisma> = makePrismaBindingClass({typeDefs})
+export { prisma as Prisma } 
+`
   }
   renderTypedefs() {
     return (
