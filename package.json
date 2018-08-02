@@ -50,7 +50,7 @@
     "graphql": "0.13.2",
     "semantic-release": "^15.5.2",
     "tslint": "5.9.1",
-    "tslint-config-standard": "7.0.0",
+    "tslint-config-standard": "7.1.0",
     "typescript": "2.8.3"
   },
   "peerDependencies": {
