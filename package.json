@@ -43,7 +43,7 @@
     "yargs": "12.0.1"
   },
   "devDependencies": {
-    "@types/graphql": "0.13.3",
+    "@types/graphql": "0.13.4",
     "@types/jsonwebtoken": "7.2.7",
     "@types/node": "10.0.3",
     "ava": "0.25.0",
