@@ -18,6 +18,8 @@ export interface Subscription ${this.renderSubscriptions()}
 
 export interface Exists ${this.renderExists()}
 
+export interface Node {}
+
 export interface Prisma {
   query: Query
   mutation: Mutation
