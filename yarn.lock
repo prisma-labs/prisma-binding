@@ -1258,9 +1258,9 @@ copy-descriptor@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
 
-copyfiles@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/copyfiles/-/copyfiles-2.0.0.tgz#bbd78bb78e8fd6db5c67adf54249317b24560f2a"
+copyfiles@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/copyfiles/-/copyfiles-2.1.0.tgz#0e2a4188162d6b2f3c5adfe34e9c0bd564d23164"
   dependencies:
     glob "^7.0.5"
     minimatch "^3.0.3"
