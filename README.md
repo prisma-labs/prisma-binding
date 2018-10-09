@@ -1,12 +1,12 @@
 # prisma-binding
 
-[![CircleCI](https://circleci.com/gh/prismagraphql/prisma-binding.svg?style=shield)](https://circleci.com/gh/prismagraphql/prisma-binding) [![npm version](https://badge.fury.io/js/prisma-binding.svg)](https://badge.fury.io/js/prisma-binding)
+[![CircleCI](https://circleci.com/gh/prisma/prisma-binding.svg?style=shield)](https://circleci.com/gh/prisma/prisma-binding) [![npm version](https://badge.fury.io/js/prisma-binding.svg)](https://badge.fury.io/js/prisma-binding)
 
 GraphQL Binding for Prisma services (GraphQL Database)
 
 ## Example
 
-You can check out an example of how to use `prisma-binding` together with codegen [here](https://github.com/graphql-binding/graphql-binding/tree/master/examples/full-example) and [here](https://github.com/prismagraphql/graphql-server-example)
+You can check out an example of how to use `prisma-binding` together with codegen [here](https://github.com/graphql-binding/graphql-binding/tree/master/examples/full-example) and [here](https://github.com/prisma/graphql-server-example)
 
 ## Overview
 
@@ -181,7 +181,7 @@ server.start(
 ## Usage
 
 - [graphql-boilerplates](https://github.com/graphql-boilerplates).
-- [graphql-server-example](https://github.com/graphcool/graphql-server-example).
+- [graphql-server-example](https://github.com/prisma/graphql-prisma-typescript).
 
 ## Next steps
 
