@@ -38,13 +38,13 @@
     "graphql-import": "0.5.2",
     "graphql-tools": "3.1.0",
     "http-link-dataloader": "^0.1.2",
-    "jsonwebtoken": "8.2.1",
+    "jsonwebtoken": "8.4.0",
     "subscriptions-transport-ws": "0.9.8",
     "yargs": "12.0.1"
   },
   "devDependencies": {
     "@types/graphql": "0.13.3",
-    "@types/jsonwebtoken": "7.2.7",
+    "@types/jsonwebtoken": "8.3.0",
     "@types/node": "10.0.3",
     "ava": "0.25.0",
     "copyfiles": "2.0.0",
