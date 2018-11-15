@@ -45,7 +45,7 @@
   "devDependencies": {
     "@types/graphql": "0.13.3",
     "@types/jsonwebtoken": "7.2.7",
-    "@types/node": "10.0.3",
+    "@types/node": "10.12.9",
     "ava": "0.25.0",
     "copyfiles": "2.0.0",
     "graphql": "0.13.2",
