@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { buildSchema } from 'graphql'
 import { PrismaGenerator } from './PrismaGenerator'
-import { test } from 'ava'
+import test from 'ava'
 
 const typeDefs = fs.readFileSync(
   path.join(__dirname, '../src/fixtures/schema.graphql'),
