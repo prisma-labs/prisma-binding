@@ -6,7 +6,7 @@ import * as mkdirp from 'mkdirp'
 import * as path from 'path'
 import { PrismaGenerator } from './PrismaGenerator'
 import { PrismaTypescriptGenerator } from './PrismaTypescriptGenerator'
-import { PrismaFlowGenerator } from "./PrismaFlowGenerator";
+import { PrismaFlowGenerator } from './PrismaFlowGenerator'
 import { buildSchema, printSchema } from 'graphql'
 import { importSchema } from 'graphql-import'
 
@@ -53,15 +53,15 @@ async function run(argv) {
   if (language === 'typescript') {
     require('ts-node').register()
   }
-  let generatorInstance;
+  let generatorInstance
 
   switch (language) {
     case 'typescript':
-      generatorInstance = new PrismaTypescriptGenerator(args);
-      break;
+      generatorInstance = new PrismaTypescriptGenerator(args)
+      break
     case 'flow':
-      generatorInstance = new PrismaFlowGenerator(args);
-      break;
+      generatorInstance = new PrismaFlowGenerator(args)
+      break
     default:
       generatorInstance = new PrismaGenerator(args)
   }

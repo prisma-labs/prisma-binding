@@ -16,9 +16,8 @@ export function getExistsTypes(queryType: GraphQLObjectType) {
 
 export function getExistsFlowTypes(queryType: GraphQLObjectType) {
   const types = getTypesAndWhere(queryType)
-  return types.map(
-    ({ type, where}) => `${type}(where?: ${where}): Promise<boolean>;`
-  )
+  return types
+    .map(({ type, where }) => `${type}(where?: ${where}): Promise<boolean>;`)
     .join('\n')
 }
 

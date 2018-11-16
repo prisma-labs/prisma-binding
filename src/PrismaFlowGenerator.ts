@@ -1,4 +1,4 @@
-import { FlowGenerator } from "graphql-binding";
+import { FlowGenerator } from 'graphql-binding'
 import { printSchema } from 'graphql'
 import { getExistsFlowTypes } from './utils'
 
@@ -60,7 +60,6 @@ import type { IResolvers } from 'graphql-tools/dist/Interfaces'
 import type { Options } from 'graphql-binding'
 import type { BasePrismaOptions as BPOType } from 'prisma-binding'
 import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'`
-
   }
   renderExports() {
     return `const prisma: BindingConstructor<Prisma> = makePrismaBindingClass({typeDefs})
