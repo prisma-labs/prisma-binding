@@ -1,9 +1,9 @@
 import {
   GraphQLResolveInfo,
-  GraphQLNonNull,
   FieldNode,
   GraphQLSchema,
-  GraphQLList,
+  isListType,
+  isNonNullType,
 } from 'graphql'
 
 export function buildExistsInfo(
@@ -14,10 +14,7 @@ export function buildExistsInfo(
   const type = queryType.getFields()[rootFieldName].type
 
   // make sure that just list types are queried
-  if (
-    !(type instanceof GraphQLNonNull) ||
-    !(type.ofType instanceof GraphQLList)
-  ) {
+  if (!isNonNullType(type) || !isListType(type)) {
     throw new Error(`Invalid exist query: ${rootFieldName}`)
   }
 
