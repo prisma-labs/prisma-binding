@@ -40,7 +40,7 @@
     "http-link-dataloader": "^0.1.6",
     "jsonwebtoken": "8.4.0",
     "subscriptions-transport-ws": "0.9.15",
-    "yargs": "12.0.2"
+    "yargs": "12.0.4"
   },
   "devDependencies": {
     "@types/graphql": "14.0.3",
