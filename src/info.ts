@@ -14,7 +14,7 @@ export function buildExistsInfo(
   const type = queryType.getFields()[rootFieldName].type
 
   // make sure that just list types are queried
-  if (!isNonNullType(type) || !isListType(type)) {
+  if (!isNonNullType(type) || !isListType(type.ofType)) {
     throw new Error(`Invalid exist query: ${rootFieldName}`)
   }
 
