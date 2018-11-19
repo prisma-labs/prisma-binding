@@ -34,7 +34,7 @@
     "apollo-link-error": "1.1.1",
     "apollo-link-ws": "1.0.9",
     "cross-fetch": "2.2.3",
-    "graphql-binding": "2.3.2",
+    "graphql-binding": "2.3.3",
     "graphql-import": "0.7.1",
     "graphql-tools": "4.0.3",
     "http-link-dataloader": "^0.1.6",
