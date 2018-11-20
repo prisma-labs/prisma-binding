@@ -4,7 +4,7 @@ import { SharedLink } from './SharedLink'
 import { makeRemoteExecutableSchema } from 'graphql-tools'
 
 const typeDefsCache: { [schemaPath: string]: string } = {}
-const remoteSchemaCache: { [typeDefs: string]: GraphQLSchema } = {}
+const remoteSchemaCache: { [endpoint: string]: GraphQLSchema } = {}
 
 export function getCachedTypeDefs(schemaPath: string): string {
   if (typeDefsCache[schemaPath]) {
@@ -18,19 +18,19 @@ export function getCachedTypeDefs(schemaPath: string): string {
 }
 
 export function getCachedRemoteSchema(
+  endpoint: string,
   typeDefs: string,
   link: SharedLink,
 ): GraphQLSchema {
-  if (remoteSchemaCache[typeDefs]) {
-    return remoteSchemaCache[typeDefs]
+  if (remoteSchemaCache[endpoint]) {
+    return remoteSchemaCache[endpoint]
   }
 
   const remoteSchema = makeRemoteExecutableSchema({
-    // TODO fix typings
-    link: link as any,
+    link: link,
     schema: typeDefs,
   })
-  remoteSchemaCache[typeDefs] = remoteSchema
+  remoteSchemaCache[endpoint] = remoteSchema
 
   return remoteSchema
 }
