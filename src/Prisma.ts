@@ -44,7 +44,7 @@ export class Prisma extends Binding {
     const token = secret ? sign({}, secret!) : undefined
     const link = makePrismaLink({ endpoint: endpoint!, token, debug })
 
-    const remoteSchema = getCachedRemoteSchema(typeDefs, sharedLink)
+    const remoteSchema = getCachedRemoteSchema(typeDefs, sharedLink, endpoint)
 
     const before = () => {
       sharedLink.setInnerLink(link)
