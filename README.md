@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/prisma/prisma-binding.svg?style=shield)](https://circleci.com/gh/prisma/prisma-binding) [![npm version](https://badge.fury.io/js/prisma-binding.svg)](https://badge.fury.io/js/prisma-binding)
 
-GraphQL Binding for Prisma services (GraphQL Database)
+GraphQL Binding for Prisma (using GraphQL schema delegation)
 
 ## Example
 
