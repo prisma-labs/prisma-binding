@@ -4,7 +4,7 @@
 
 GraphQL Binding for Prisma (using GraphQL schema delegation)
 
-> **Note**: Unless you explicitly want to use schema delegation we recommend to use the [Prisma client](https://www.prisma.io/docs/prisma-client/) to build a GraphQL server [see tutorial](https://www.prisma.io/docs/get-started/03-build-graphql-servers-with-prisma-JAVASCRIPT-e001/).
+> **Note**: Unless you explicitly want to use schema delegation we recommend to use [Prisma client](https://www.prisma.io/docs/prisma-client/) to build a GraphQL server [see tutorial](https://www.prisma.io/docs/get-started/03-build-graphql-servers-with-prisma-JAVASCRIPT-e001/).
 
 ## Example
 
