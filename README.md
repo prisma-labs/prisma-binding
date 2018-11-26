@@ -8,7 +8,7 @@ GraphQL Binding for Prisma (using GraphQL schema delegation)
 
 ## Example
 
-You can check out an example of how to use `prisma-binding` together with codegen [here](https://github.com/graphql-binding/graphql-binding/tree/master/examples/full-example) and [here](https://github.com/prisma/graphql-server-example)
+You can check out an example of how to use `prisma-binding` together with codegen [here](https://github.com/graphql-boilerplates/typescript-graphql-server/blob/master/basic/src/index.ts)
 
 ## Overview
 
