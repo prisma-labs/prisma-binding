@@ -13,7 +13,8 @@
   "author": "Johannes Schickling <johannes@graph.cool>",
   "contributors": [
     "Kim Brandwijk <kim.brandwijk@gmail.com>",
-    "Tim Suchanek <suchanek@prisma.io>"
+    "Tim Suchanek <suchanek@prisma.io>",
+    "Matic Zavadlal <matic.zavadlal@gmail.com>"
   ],
   "bin": {
     "prisma-binding": "./dist/bin.js"
@@ -24,17 +25,21 @@
   },
   "homepage": "https://github.com/graphcool/graphcool-binding",
   "scripts": {
+    "clean": "rimraf dist",
     "prepublish": "npm run build",
-    "build": "rimraf dist && tsc -d",
+    "prebuild": "npm-run-all clean",
+    "build": "tsc -d",
     "lint": "tslint --project tsconfig.json {src}/**/*.ts && prettier-check --ignore-path .gitignore src/**/*.ts",
-    "test": "npm run lint && npm run build && copyfiles -u 2 tests/fixtures/* dist/tests/fixtures && ava"
+    "pretest": "npm-run-all build lint",
+    "test": "ava"
   },
   "dependencies": {
     "apollo-link": "1.2.4",
     "apollo-link-error": "1.1.2",
     "apollo-link-ws": "1.0.10",
     "cross-fetch": "3.0.0",
-    "graphql-binding": "2.3.6",
+    "graphql": "^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0",
+    "graphql-binding": "2.3.7",
     "graphql-import": "0.7.1",
     "graphql-tools": "4.0.3",
     "http-link-dataloader": "^0.1.6",
@@ -47,9 +52,8 @@
     "@types/jsonwebtoken": "8.3.0",
     "@types/node": "10.12.12",
     "ava": "1.0.0-rc.2",
-    "copyfiles": "2.1.0",
-    "graphql": "14.0.2",
     "husky": "1.2.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "1.15.3",
     "prettier-check": "2.0.0",
     "pretty-quick": "1.8.0",
@@ -59,8 +63,5 @@
     "tslint": "5.11.0",
     "tslint-config-standard": "8.0.1",
     "typescript": "3.2.2"
-  },
-  "peerDependencies": {
-    "graphql": "^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0"
   }
 }
