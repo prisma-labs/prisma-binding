@@ -2580,10 +2580,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.15.tgz#ffb703e1066e8a0eeaa4c8b80ba9253eeefbfb00"
   integrity sha512-6uHUhOPEBgQ24HM+r6b/QwWfZq+yiFcipKFrOFiBEnWdy5sdzYoi+pJeQaPI5qOLRFqWmAXUPQNsielzdLoecA==
 
-graphql-binding@2.3.7:
-  version "2.3.7"
-  resolved "https://registry.yarnpkg.com/graphql-binding/-/graphql-binding-2.3.7.tgz#2480d9ae4582ab1fbedb3ab1ae67963f82a8b028"
-  integrity sha512-fhvNySzmPHdqyjS73Rrr12RfJ2IehhFz7Ql7qYkls5KHwdktCg2E3MZroLiLkNQOx9uKIPq9AfibgIM7wecYKw==
+graphql-binding@2.3.8:
+  version "2.3.8"
+  resolved "https://registry.yarnpkg.com/graphql-binding/-/graphql-binding-2.3.8.tgz#7434d6ae95bf6d26ea566390c780d8b318009443"
+  integrity sha512-lW9HnQsD4HV8P2pon53j31b2ySmoP8UgudRYw9L8vGcjvjwh9Rietg9lCMNB4zMwC6crnWO7Rtl6Rj3EWWyBuQ==
   dependencies:
     graphql "^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0"
     graphql-import "^0.7.1"
