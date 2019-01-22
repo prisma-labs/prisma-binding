@@ -6,10 +6,6 @@ GraphQL Binding for Prisma (using GraphQL schema delegation)
 
 > **Note**: Unless you explicitly want to use schema delegation we recommend to use [Prisma client](https://www.prisma.io/docs/prisma-client/) to build a GraphQL server [see tutorial](https://www.prisma.io/docs/get-started/03-build-graphql-servers-with-prisma-JAVASCRIPT-e001/).
 
-## Example
-
-You can check out an example of how to use `prisma-binding` together with codegen [here](https://github.com/graphql-boilerplates/typescript-graphql-server/blob/master/basic/src/index.ts)
-
 ## Overview
 
 `prisma-binding` provides a convenience layer for building GraphQL servers on top of Prisma services. In short, it simplifies implementing your GraphQL resolvers by _delegating_ execution of queries (or mutations) to the API of the underlying Prisma database service.
@@ -18,11 +14,9 @@ Here is how it works:
 
 1. Create your Prisma service by defining data model
 1. Download generated database schema definition `prisma.graphql` (contains the full CRUD API)
-1. Define your application schema, typically called `app.graphql`
+1. Define your application schema, typically called `schema.graphql`
 1. Instantiate `Prisma` with information about your Prisma service (such as its endpoint and the path to the database schema definition)
 1. Implement the resolvers for your application schema by delegating to the underlying Prisma service using the generated delegate resolver functions
-
-> **Note**: If you're using a [GraphQL boilerplate](https://github.com/graphql-boilerplates/) project (e.g. with `graphql create`), the Prisma binding will already be configured and a few example resolvers implemented for you. You can either try the _dynamic binding_ (e.g. in the [`node-basic`](https://github.com/graphql-boilerplates/node-graphql-server/tree/master/basic) boilerplate) or a _static binding_ (e.g in the [`typescript-basic`](https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/basic) boilerplate).
 
 ## Install
 
@@ -69,7 +63,7 @@ prisma.mutation.updateUser({ where: { id: 'abc' }, data: { name: 'Sarah' } }, '{
 prisma.mutation.deleteUser({ where: { id: 'abc' } }, '{ id }')
 ```
 
-Under the hood, each of these function calls is simply translated into an actual HTTP request against your Prisma service (using [`graphql-request`](https://github.com/graphcool/graphql-request)).
+Under the hood, each of these function calls is simply translated into an actual HTTP request against your Prisma service (using [`graphql-request`](https://github.com/prisma/graphql-request)).
 
 The API also allows to ask whether a specific node exists in your Prisma database:
 
@@ -178,16 +172,6 @@ server.start(
   () => console.log(`Server is running on http://localhost:4000`),
 )
 ```
-
-
-## Usage
-
-- [graphql-boilerplates](https://github.com/graphql-boilerplates).
-- [graphql-server-example](https://github.com/prisma/graphql-prisma-typescript).
-
-## Next steps
-
-- Code generation at build-time for the auto-generated delegate resolvers
 
 <p align="center"><a href="https://oss.prisma.io"><img src="https://imgur.com/IMU2ERq.png" alt="Prisma" height="170px"></a></p>
 
