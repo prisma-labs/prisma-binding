@@ -16,11 +16,9 @@ export function getCachedTypeDefs(
 
   const schema = importSchema(schemaPath)
 
-  if (disableCache) {
-    return schema
+  if (!disableCache) {
+    typeDefsCache[schemaPath] = schema
   }
-
-  typeDefsCache[schemaPath] = schema
 
   return schema
 }
@@ -40,11 +38,9 @@ export function getCachedRemoteSchema(
     schema: typeDefs,
   })
 
-  if (disableCache) {
-    return remoteSchema
+  if (!disableCache) {
+    remoteSchemaCache[endpoint] = remoteSchema
   }
-
-  remoteSchemaCache[endpoint] = remoteSchema
 
   return remoteSchema
 }
