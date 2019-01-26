@@ -2604,10 +2604,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.15.tgz#ffb703e1066e8a0eeaa4c8b80ba9253eeefbfb00"
   integrity sha512-6uHUhOPEBgQ24HM+r6b/QwWfZq+yiFcipKFrOFiBEnWdy5sdzYoi+pJeQaPI5qOLRFqWmAXUPQNsielzdLoecA==
 
-graphql-binding@2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/graphql-binding/-/graphql-binding-2.4.2.tgz#a48340e55161f90a75e3c24bab87e810f4b096d5"
-  integrity sha512-1w3YoyCnGaEkR/vihOnK9PqN30IMqzKoVkg156zSRK9tGvYF33yy3O8ZZqOPMu7q6xp+LMUsnrjhYgit4sH1hg==
+graphql-binding@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/graphql-binding/-/graphql-binding-2.5.0.tgz#47eee13e622171bb337c2ce9bab6b4cecd5a76cc"
+  integrity sha512-DzZgPakNlAqELjO3M7F4YOSC4QBL3CTYGEH/NJdSvF/DqAGY7UrnCNVXGt+fR4yx+VYQVtd+kF2VgpZmIAahQg==
   dependencies:
     graphql "^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0"
     graphql-import "^0.7.1"
@@ -2625,17 +2625,6 @@ graphql-import@0.7.1, graphql-import@^0.7.1:
   dependencies:
     lodash "^4.17.4"
     resolve-from "^4.0.0"
-
-graphql-tools@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-4.0.3.tgz#23b5cb52c519212b1b2e4630a361464396ad264b"
-  integrity sha512-NNZM0WSnVLX1zIMUxu7SjzLZ4prCp15N5L2T2ro02OVyydZ0fuCnZYRnx/yK9xjGWbZA0Q58yEO//Bv/psJWrg==
-  dependencies:
-    apollo-link "^1.2.3"
-    apollo-utilities "^1.0.1"
-    deprecated-decorator "^0.1.6"
-    iterall "^1.1.3"
-    uuid "^3.1.0"
 
 graphql-tools@4.0.4:
   version "4.0.4"
