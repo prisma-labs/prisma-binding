@@ -18,13 +18,14 @@ export class Prisma extends Binding {
     secret,
     fragmentReplacements,
     debug,
+    disableCache,
   }: PrismaOptions) {
     if (!typeDefs) {
       throw new Error('No `typeDefs` provided when calling `new Prisma()`')
     }
 
     if (typeDefs.endsWith('.graphql')) {
-      typeDefs = getCachedTypeDefs(typeDefs)
+      typeDefs = getCachedTypeDefs(typeDefs, disableCache)
     }
 
     if (endpoint === undefined) {
@@ -44,7 +45,12 @@ export class Prisma extends Binding {
     const token = secret ? sign({}, secret!) : undefined
     const link = makePrismaLink({ endpoint: endpoint!, token, debug })
 
-    const remoteSchema = getCachedRemoteSchema(endpoint, typeDefs, sharedLink)
+    const remoteSchema = getCachedRemoteSchema(
+      endpoint,
+      typeDefs,
+      sharedLink,
+      disableCache,
+    )
 
     const before = () => {
       sharedLink.setInnerLink(link)
@@ -54,6 +60,7 @@ export class Prisma extends Binding {
       schema: remoteSchema,
       fragmentReplacements,
       before,
+      disableCache,
     })
 
     this.exists = this.buildExists()

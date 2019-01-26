@@ -14,6 +14,7 @@ export interface BasePrismaOptions {
   endpoint?: string
   secret?: string
   debug?: boolean
+  disableCache?: boolean
 }
 
 export interface PrismaOptions extends BasePrismaOptions {
