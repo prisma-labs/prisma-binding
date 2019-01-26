@@ -60,6 +60,7 @@ export class Prisma extends Binding {
       schema: remoteSchema,
       fragmentReplacements,
       before,
+      disableCache,
     })
 
     this.exists = this.buildExists()
