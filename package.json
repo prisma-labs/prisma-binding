@@ -34,9 +34,9 @@
     "test": "ava"
   },
   "dependencies": {
-    "apollo-link": "1.2.6",
-    "apollo-link-error": "1.1.5",
-    "apollo-link-ws": "1.0.12",
+    "apollo-link": "1.2.8",
+    "apollo-link-error": "1.1.7",
+    "apollo-link-ws": "1.0.14",
     "cross-fetch": "3.0.0",
     "graphql": "^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0",
     "graphql-binding": "2.5.0",
