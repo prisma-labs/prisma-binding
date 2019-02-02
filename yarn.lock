@@ -1675,10 +1675,10 @@ cross-fetch@2.2.2:
     node-fetch "2.1.2"
     whatwg-fetch "2.0.4"
 
-cross-fetch@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.0.tgz#fb7fa6906f39c7233aa7ab8de1785e980532b899"
-  integrity sha512-P8HyKlMwT1ed9LqEWlJu+zfcxfn0KI4Nl4nxyvu1a8sg4vgtHdwhElZOgSNzoar44zQMdliZcve4QG/04AUi9Q==
+cross-fetch@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.1.tgz#3f207bbd829a76e9aa2a953348bd1f2a3cf388a7"
+  integrity sha512-qWtpgBAF8ioqBOddRD+pHhrdzm/UWOArkrlIU7c08DlNbOxo5GfUbSY2vr90ZypWf0raW+HNN1F38pi5CEOjiQ==
   dependencies:
     node-fetch "2.3.0"
     whatwg-fetch "3.0.0"
