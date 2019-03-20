@@ -62,6 +62,6 @@
     "ts-node": "7.0.1",
     "tslint": "5.14.0",
     "tslint-config-standard": "8.0.1",
-    "typescript": "3.3.3333"
+    "typescript": "3.3.4000"
   }
 }
