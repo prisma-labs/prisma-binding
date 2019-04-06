@@ -19,6 +19,7 @@ export class Prisma extends Binding {
     fragmentReplacements,
     debug,
     disableCache,
+    authToken,
   }: PrismaOptions) {
     if (!typeDefs) {
       throw new Error('No `typeDefs` provided when calling `new Prisma()`')
@@ -42,7 +43,7 @@ export class Prisma extends Binding {
 
     debug = debug || false
 
-    const token = secret ? sign({}, secret!) : undefined
+    const token = authToken || secret ? sign({}, secret!) : undefined
     const link = makePrismaLink({ endpoint: endpoint!, token, debug })
 
     const remoteSchema = getCachedRemoteSchema(
