@@ -50,7 +50,7 @@
   "devDependencies": {
     "@types/graphql": "14.2.2",
     "@types/jsonwebtoken": "8.3.2",
-    "@types/node": "10.14.12",
+    "@types/node": "10.14.13",
     "ava": "1.4.1",
     "husky": "1.3.1",
     "npm-run-all": "4.1.5",
