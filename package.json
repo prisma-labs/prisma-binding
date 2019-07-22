@@ -48,7 +48,7 @@
     "yargs": "12.0.5"
   },
   "devDependencies": {
-    "@types/graphql": "14.2.2",
+    "@types/graphql": "14.2.3",
     "@types/jsonwebtoken": "8.3.2",
     "@types/node": "10.14.13",
     "ava": "1.4.1",
