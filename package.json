@@ -58,7 +58,7 @@
     "prettier-check": "2.0.0",
     "pretty-quick": "1.11.1",
     "rimraf": "2.6.3",
-    "semantic-release": "15.13.18",
+    "semantic-release": "15.13.19",
     "ts-node": "7.0.1",
     "tslint": "5.18.0",
     "tslint-config-standard": "8.0.1",
