@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/prisma/prisma-binding.svg?style=shield)](https://circleci.com/gh/prisma/prisma-binding) [![npm version](https://badge.fury.io/js/prisma-binding.svg)](https://badge.fury.io/js/prisma-binding)
 
-⚠️ GraphQL Binding for **Prisma 1** (using GraphQL schema delegation). [Prisma 2.0 doesn't support Prisma binding](https://www.prisma.io/docs/more/faq#does-prisma-client-support-graphql-schema-delegation-and-graphql-binding). Unless you explicitly want to use Prisma 1 and schema delegation we recommend to use [Nexus](https://nexujs.org) for building GraphQL servers.
+⚠️ `prisma-binding` is a dedicated [`graphql-binding`](https://github.com/dotansimha/graphql-binding) for **Prisma 1** (based GraphQL [schema delegation](https://www.prisma.io/blog/graphql-schema-stitching-explained-schema-delegation-4c6caf468405)). [Prisma 2.0 doesn't support Prisma binding](https://www.prisma.io/docs/more/faq#does-prisma-client-support-graphql-schema-delegation-and-graphql-binding). Unless you explicitly want to use Prisma 1 and schema delegation we recommend to use [Nexus](https://nexujs.org) for building GraphQL servers.
 
 ## Overview
 
