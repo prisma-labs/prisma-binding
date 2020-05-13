@@ -4,7 +4,7 @@
 
 ## ⚠️ A note about this repository
 
-`prisma-binding` is a dedicated [`graphql-binding`](https://github.com/dotansimha/graphql-binding) for **Prisma 1** (based GraphQL [schema delegation](https://www.prisma.io/blog/graphql-schema-stitching-explained-schema-delegation-4c6caf468405)). Note that [Prisma 2.0 doesn't support Prisma binding](https://www.prisma.io/docs/more/faq#does-prisma-client-support-graphql-schema-delegation-and-graphql-binding). 
+`prisma-binding` is a dedicated [`graphql-binding`](https://github.com/dotansimha/graphql-binding) for **Prisma 1** (based on GraphQL [schema delegation](https://www.prisma.io/blog/graphql-schema-stitching-explained-schema-delegation-4c6caf468405)). Note that [Prisma 2.0 doesn't support Prisma binding](https://www.prisma.io/docs/more/faq#does-prisma-client-support-graphql-schema-delegation-and-graphql-binding). 
 
 Unless you explicitly want to use Prisma 1 and schema delegation we recommend to use [Nexus](https://nexujs.org) for building GraphQL servers!
 
