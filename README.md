@@ -42,6 +42,9 @@ type User {
 If you instantiate `Prisma` based on this service, you'll be able to send the following queries/mutations:
 
 ```js
+// Require Prisma class from prisma binding
+const { Prisma } = require('prisma-binding')
+
 // Instantiate `Prisma` based on concrete service
 const prisma = new Prisma({
   typeDefs: 'schemas/database.graphql',
