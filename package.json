@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/graphcool/graphcool-binding.git"
+    "url": "git+https://github.com/prisma-labs/prisma-binding.git"
   },
   "author": "Johannes Schickling <johannes@graph.cool>",
   "contributors": [
@@ -21,9 +21,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/graphcool/graphcool-binding/issues"
+    "url": "https://github.com/prisma-labs/prisma-binding/issues"
   },
-  "homepage": "https://github.com/graphcool/graphcool-binding",
+  "homepage": "https://github.com/prisma-labs/prisma-binding",
   "scripts": {
     "clean": "rimraf dist",
     "prepublish": "npm run build",
