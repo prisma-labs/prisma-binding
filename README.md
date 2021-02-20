@@ -48,7 +48,7 @@ const {Prisma} = require('prisma-binding')
 const prisma = new Prisma({
   typeDefs: 'schemas/database.graphql',
   endpoint: 'https://us1.prisma.sh/demo/my-service/dev',
-  secret: 'my-super-secret-secret'
+  secret: 'my-super-secret-secret',
 })
 
 // Retrieve `name` of a specific user
@@ -61,7 +61,10 @@ prisma.query.users(null, '{ id name }')
 prisma.mutation.createUser({ data: { name: 'Sarah' } }, '{ id }')
 
 // Update name of a specific user and retrieve the `id`
-prisma.mutation.updateUser({ where: { id: 'abc' }, data: { name: 'Sarah' } }, '{ id }')
+prisma.mutation.updateUser(
+  { where: { id: 'abc' }, data: { name: 'Sarah' } },
+  '{ id }',
+)
 
 // Delete a specific user and retrieve the `id`
 prisma.mutation.deleteUser({ where: { id: 'abc' } }, '{ id }')
@@ -77,8 +80,8 @@ The API also allows to ask whether a specific node exists in your Prisma databas
 prisma.exists.Post({
   id: 'abc',
   author: {
-    name: 'Sarah'
-  }
+    name: 'Sarah',
+  },
 })
 ```
 
@@ -88,13 +91,14 @@ prisma.exists.Post({
 
 The `PrismaOptions` type has the following fields:
 
-| Key | Required |  Type | Default | Note |
-| ---  | --- | --- | --- | --- |
-| `typeDefs` | Yes | `string` |  - | Type definition string or file path to the schema definition of your Prisma service (typically a file called `database.graphql` or `prisma.graphql`) |
-| `endpoint` | Yes | `string` |  - | The endpoint of your Prisma service |
-| `secret` | Yes | `string` |  - | The secret of your Prisma service |
-| `fragmentReplacements` | No | `FragmentReplacements` |  `null` | A list of GraphQL fragment definitions, specifying fields that are required for the resolver to function correctly |
-| `debug` | No | `boolean` |  `false` | Log all queries/mutations to the console |
+| Key                    | Required | Type                   | Default | Note                                                                                                                                                 |
+| ---------------------- | -------- | ---------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `typeDefs`             | Yes      | `string`               | -       | Type definition string or file path to the schema definition of your Prisma service (typically a file called `database.graphql` or `prisma.graphql`) |
+| `endpoint`             | Yes      | `string`               | -       | The endpoint of your Prisma service                                                                                                                  |
+| `secret`               | No       | `string`               | -       | The secret of your Prisma service                                                                                                                    |
+| `fragmentReplacements` | No       | `FragmentReplacements` | `null`  | A list of GraphQL fragment definitions, specifying fields that are required for the resolver to function correctly                                   |
+| `debug`                | No       | `boolean`              | `false` | Log all queries/mutations to the console                                                                                                             |
+| `authToken`            | No       | `string`               | -       | Custom token passed as Authorization within header (Overrides secret)                                                                                |
 
 ### `query` and `mutation`
 
@@ -113,7 +117,7 @@ The input arguments are used as follows:
 - `args`: An object carrying potential arguments for the query/mutation
 - `info`: An object representing the selection set of the query/mutation, either expressed directly as a string or in the form of `GraphQLResolveInfo` (you can find more info about the `GraphQLResolveInfo` type [here](http://graphql.org/graphql-js/type/#graphqlobjecttype))
 
-The generic type `T` corresponds to the type of the respective field. 
+The generic type `T` corresponds to the type of the respective field.
 
 ### `exists`
 
@@ -139,8 +143,7 @@ const query = `
 
 const variables = { userId: 'abc' }
 
-prisma.request(query, variables)
-  .then(result => console.log(result))
+prisma.request(query, variables).then(result => console.log(result))
 // sample result:
 // {"data": { "user": { "id": "abc", "name": "Sarah" } } }
 ```
@@ -150,12 +153,12 @@ prisma.request(query, variables)
 If you just want to forward a query to the exact same underlying prisma query, you can use `forwardTo`:
 
 ```js
-const {forwardTo} = require('prisma-binding')
+const { forwardTo } = require('prisma-binding')
 
 const resolvers = {
   Query: {
-    posts: forwardTo('db')
-  }
+    posts: forwardTo('db'),
+  },
 }
 
 const server = new GraphQLServer({
@@ -172,10 +175,7 @@ const server = new GraphQLServer({
   }),
 })
 
-server.start(
-  () => console.log(`Server is running on http://localhost:4000`),
-)
+server.start(() => console.log(`Server is running on http://localhost:4000`))
 ```
 
 <p align="center"><a href="https://oss.prisma.io"><img src="https://imgur.com/IMU2ERq.png" alt="Prisma" height="170px"></a></p>
-
